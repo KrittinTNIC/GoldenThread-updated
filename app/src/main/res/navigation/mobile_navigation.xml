@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <!-- Home -->
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.finalproject.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" >
+
+
+        <action
+            android:id="@+id/action_home_to_dramasByLocation"
+            app:destination="@id/dramasByLocationFragment" />
+
+        <action
+            android:id="@+id/action_home_to_tourDetails"
+            app:destination="@id/tourDetailsFragment" />
+
+
+        <action
+            android:id="@+id/action_home_to_personalisedTours"
+            app:destination="@id/personalisedToursFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/dramasByLocationFragment"
+        android:name="com.example.finalproject.ui.home.DramasByLocationFragment"
+        android:label="Dramas by Location">
+        <argument
+            android:name="locationId"
+            app:argType="string" />
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_dramasByLocationFragment_to_tourDetailsFragment"
+            app:destination="@id/tourDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tourDetailsFragment"
+        android:name="com.example.finalproject.ui.home.TourDetailsFragment"
+        android:label="Tour Details">
+
+        <argument
+            android:name="tourId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_dramasByLocation_to_tourDetails"
+            app:destination="@id/tourDetailsFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/personalisedToursFragment"
+        android:name="com.example.finalproject.ui.home.PersonalisedToursFragment"
+        android:label="Personalised Tours">
+        <action
+            android:id="@+id/action_personalisedTours_to_tourDetails"
+            app:destination="@id/tourDetailsFragment" />
+    </fragment>
+
+
+
+    <!-- Explore -->
+    <fragment
+        android:id="@+id/nav_explore"
+        android:name="com.example.finalproject.ExploreFragment"
+        android:label="Explore"
+        tools:layout="@layout/fragment_explore" >
+
+        <action
+            android:id="@+id/action_explore_to_tourDetails"
+            app:destination="@id/tourDetailsFragment" />
+
+    </fragment>
+
+
+
+    <!-- Thread -->
+    <fragment
+        android:id="@+id/nav_thread"
+        android:name="com.example.finalproject.ui.thread.ThreadFragment"
+        android:label="Thread"
+        tools:layout="@layout/fragment_thread" >
+
+        <action
+            android:id="@+id/action_thread_to_home"
+            app:destination="@id/nav_home"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_global_to_thread"
+            app:destination="@id/nav_thread"
+            app:popUpTo="@id/nav_thread"
+            app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_thread_to_tourDetails"
+            app:destination="@id/tourDetailsFragment" />
+
+    </fragment>
+
+
+
+    <!-- Profile -->
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.finalproject.ui.ProfileMainFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" >
+
+        <action
+            android:id="@+id/action_profile_to_edit"
+            app:destination="@id/profileEditFragment" />
+
+        <action
+            android:id="@+id/action_profile_to_favourites"
+            app:destination="@id/profileFavouritesFragment" />
+
+        <action
+            android:id="@+id/action_profile_to_settings"
+            app:destination="@id/profileSettingsFragment" />
+
+        <action
+            android:id="@+id/action_profile_to_tips"
+            app:destination="@id/profileTipsFragment" />
+
+        <action
+            android:id="@+id/action_profile_to_about"
+            app:destination="@id/profileAboutFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.example.finalproject.ui.ProfileEditFragment"
+        android:label="Edit Profile" >
+
+        <action
+            android:id="@+id/action_profileEdit_to_profile"
+            app:destination="@id/nav_profile"
+            app:popUpTo="@id/nav_profile"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFavouritesFragment"
+        android:name="com.example.finalproject.ui.ProfileFavouritesFragment"
+        android:label="Favourites">
+
+        <argument
+            android:name="toggle"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_profileFavourites_to_profile"
+            app:destination="@id/nav_profile"
+            app:popUpTo="@id/nav_profile"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileSettingsFragment"
+        android:name="com.example.finalproject.ui.ProfileSettingsFragment"
+        android:label="Settings" >
+
+        <action
+            android:id="@+id/action_profileSettings_to_profile"
+            app:destination="@id/nav_profile"
+            app:popUpTo="@id/nav_profile"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_profileSettings_to_interests"
+            app:destination="@id/profileInterestsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileInterestsFragment"
+        android:name="com.example.finalproject.ui.ProfileInterestsFragment"
+        android:label="Interests"
+        tools:layout="@layout/fragment_profile_interests" >
+
+        <action
+            android:id="@+id/action_profileInterests_to_profile"
+            app:destination="@id/nav_profile"
+            app:popUpTo="@id/nav_profile"
+            app:popUpToInclusive="true" />
+
+        <argument
+            android:name="isFirstTimeSetup"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_profileInterestsFragment_to_main"
+            app:destination="@+id/mainFragment"
+            app:popUpTo="@id/profileInterestsFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <!--
+    <fragment
+        android:id="@+id/loginActivity"
+        android:name="com.example.ui.auth.LoginActivity">
+        <action
+            android:id="@+id/action_loginFragment_to_profileInterestsFragment"
+            app:destination="@+id/profileInterestsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupActivity"
+        android:name="com.example.ui.auth.SignUpActivity">
+
+        <action
+            android:id="@+id/action_signupFragment_to_profileInterestsFragment"
+            app:destination="@+id/profileInterestsFragment" />
+
+    </fragment>
+    -->
+
+    <fragment
+        android:id="@+id/profileTipsFragment"
+        android:name="com.example.finalproject.ui.ProfileTipsFragment"
+        android:label="Tips" >
+
+        <action
+            android:id="@+id/action_profileTips_to_profile"
+            app:destination="@id/nav_profile"
+            app:popUpTo="@id/nav_profile"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileAboutFragment"
+        android:name="com.example.finalproject.ui.ProfileAboutFragment"
+        android:label="About" >
+
+        <action
+            android:id="@+id/action_profileAbout_to_profile"
+            app:destination="@id/nav_profile"
+            app:popUpTo="@id/nav_profile"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+
+
+</navigation>

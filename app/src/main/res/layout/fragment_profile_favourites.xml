@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp,UselessParent,RtlCompat"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F8FA"
+    tools:context=".ProfileMainFragment">
+
+    <FrameLayout
+        android:id="@+id/profileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- HEADER -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="178dp"
+            android:background="@drawable/profile_rounded_header">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/dm_serif_text"
+                android:gravity="center"
+                android:text="Your Favourites"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+
+            <RadioGroup
+                android:id="@+id/profileFavouriteTabs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/btnThreads"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:text="THREADS"
+                    android:button="@null"
+                    android:fontFamily="@font/merriweather_black"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:checked="true"
+                    android:background="@drawable/profile_btn_tabs" />
+
+                <View
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent" />
+
+                <RadioButton
+                    android:id="@+id/btnDramas"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="DRAMAS"
+                    android:button="@null"
+                    android:fontFamily="@font/merriweather_black"
+                    android:textSize="12sp"
+                    android:checked="false"
+                    android:background="@drawable/profile_btn_tabs" />
+
+            </RadioGroup>
+
+
+        </FrameLayout>
+
+        <!-- BACK BUTTON -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/profile_btn_back"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="start"/>
+
+        <!-- DECORATIONS -->
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="116dp"
+            android:src="@drawable/profile_header_fav"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="end"/>
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/profileHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- THREADS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/threadsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible">
+
+                <!-- ITEM THREAD -->
+
+            </LinearLayout>
+
+        <!-- DRAMAS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <GridLayout
+                    android:id="@+id/dramasLayout"
+                    android:layout_width="355dp"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:alignmentMode="alignMargins"
+                    android:orientation="horizontal"
+                    android:rowOrderPreserved="false"
+                    android:layout_marginTop="10dp"
+                    android:visibility="invisible">
+
+                    <!-- ITEM DRAMA -->
+
+                </GridLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- NOTHING -->
+    <LinearLayout
+        android:id="@+id/nothingLayout"
+        android:layout_width="317dp"
+        android:layout_height="550dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileHeader"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/profile_content_fav"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_semibold"
+            android:textSize="20sp"
+            android:text="Oh, no!"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/merriweather_light"
+            android:textSize="16sp"
+            android:text="Looks like your list is still empty..."/>
+
+        <TextView
+            android:id="@+id/nothingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/merriweather_light"
+            android:textSize="16sp"
+            android:text="Time to pick out something!"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
