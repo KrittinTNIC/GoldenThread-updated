@@ -2,7 +2,6 @@ package com.example.finalproject.ui
 
 import android.annotation.SuppressLint
 import androidx.navigation.fragment.findNavController
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -143,10 +142,11 @@ class ProfileMainFragment : Fragment() {
                 } else {
                     0
                 }
+
                 barExplored.progress = exploredPercent
                 textExplored.text = "$exploredPercent%"
 
-                // Your favourites (Threads) - using favorite tours
+                // Your favourites (Threads) - **using favorite threads**
                 val textThreads = binding.textThreads
                 when (favoriteTours.size) {
                     0 -> textThreads.text = "You have no threads saved"
@@ -154,7 +154,7 @@ class ProfileMainFragment : Fragment() {
                     else -> textThreads.text = "You have ${favoriteTours.size} threads saved"
                 }
 
-                // Your favourites (Dramas)
+                // Your favourites (Dramas) - **using favorite tours and dramas**
                 val userDramas = Favoritemanager.getFavorites()
                 val textDramas = binding.textDramas
                 when (userDramas.size) {

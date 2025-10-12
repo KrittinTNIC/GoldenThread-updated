@@ -6,8 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F8FA"
-    tools:context=".ProfileMainFragment">
+    android:background="#F7F8FA">
 
     <FrameLayout
         android:id="@+id/profileHeader"
@@ -51,12 +50,21 @@
             android:layout_gravity="end"/>
     </FrameLayout>
 
-    <ImageView
-        android:layout_marginTop="30dp"
-        android:layout_width="350dp"
-        android:layout_height="550dp"
-        android:src="@drawable/profile_content_about"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/profileHeader">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/profile_content_about"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:adjustViewBounds="true"/>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

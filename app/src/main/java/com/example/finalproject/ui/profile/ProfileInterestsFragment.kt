@@ -1,7 +1,6 @@
 package com.example.finalproject.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -71,6 +70,9 @@ class ProfileInterestsFragment : Fragment() {
             } else {
                 findNavController().navigateUp()
             }
+        }
+        binding.btnSubmit.setOnClickListener {
+            saveAndNavigate()
         }
     }
 
@@ -171,13 +173,19 @@ class ProfileInterestsFragment : Fragment() {
                     icon.setImageResource(highlightDrawableId)
                 }
                 bg.setBackgroundResource(R.drawable.profile_rounded_red)
+
+                if ((i + 1) % 2 == 0) {
+                    bg.setBackgroundResource(R.drawable.profile_rounded_yellow)
+                } else {
+                    bg.setBackgroundResource(R.drawable.profile_rounded_red)
+                }
             }
 
             // =========== Buttons ===========
             bg.setOnClickListener {
                 // If already selected, deselect it
                 if (genre.name in userInterestIds) {
-                    userInterestIds.remove(genre.name)            // Remove from user's list
+                    userInterestIds.remove(genre.name)              // Remove from user's list
                     if (drawableId != 0) {
                         icon.setImageResource(drawableId)           // Change icon back to default
                     }
@@ -189,13 +197,13 @@ class ProfileInterestsFragment : Fragment() {
                         return@setOnClickListener
                     }
                     // If not, select it
-                    userInterestIds.add(genre.name)               // Add to user's list
+                    userInterestIds.add(genre.name)                 // Add to user's list
                     val highlightDrawableName = drawableName.replace("profile_rad_", "profile_rad2_")
                     val highlightDrawableId = requireContext().resources.getIdentifier(highlightDrawableName, "drawable", requireContext().packageName)
                     if (highlightDrawableId != 0) {
                         icon.setImageResource(highlightDrawableId)  // Change icon to highlighted version
                     }
-                    if ((i + 1) % 2 == 0) {                     // Change background (red for odd, yellow for even)
+                    if ((i + 1) % 2 == 0) {                         // Change background (red for odd, yellow for even)
                         bg.setBackgroundResource(R.drawable.profile_rounded_yellow)
                     } else {
                         bg.setBackgroundResource(R.drawable.profile_rounded_red)
