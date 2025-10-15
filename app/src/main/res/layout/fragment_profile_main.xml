@@ -6,8 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F8FA"
-    tools:context=".ProfileMainFragment">
+    android:background="#F7F8FA">
 
     <FrameLayout
         android:id="@+id/profileHeader"
@@ -170,443 +169,455 @@
         </LinearLayout>
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/profileLayout"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/profileHeader">
 
-        <!-- FAVOURITES -->
         <LinearLayout
-            android:id="@+id/layoutFavourites"
-            android:layout_width="match_parent"
+            android:id="@+id/profileLayout"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/layoutProfile">
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileHeader">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/merriweather_light"
-                android:textSize="16sp"
-                android:text="Your Favourites" />
-
-            <!-- THREADS | DRAMA -->
+            <!-- FAVOURITES -->
             <LinearLayout
+                android:id="@+id/layoutFavourites"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
-
-                <!-- THREADS -->
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnThreads">
-
-                    <LinearLayout
-                        android:layout_marginHorizontal="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:elevation="3dp"
-                        android:layout_width="137dp"
-                        android:layout_height="166dp"
-                        android:layout_weight="1"
-                        android:background="#FFFFFF"
-                        android:padding="10dp"
-                        android:orientation="vertical">
-
-                        <ImageButton
-                            android:layout_width="120dp"
-                            android:layout_height="100dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/profile_main_threads"
-                            android:background="@null"
-                            android:clickable="false"
-                            android:focusable="false"
-                            android:layout_gravity="center" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/merriweather_black"
-                            android:textSize="14sp"
-                            android:text="Threads"/>
-
-                        <TextView
-                            android:id="@+id/textThreads"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/merriweather_light"
-                            android:textSize="9sp"
-                            android:text="You have 2 threads saved" />
-
-                    </LinearLayout>
-                </FrameLayout>
-
-                <View
-                    android:layout_width="20dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <!-- DRAMAS -->
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnDramas">
-
-                    <LinearLayout
-                        android:layout_marginHorizontal="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:elevation="3dp"
-                        android:layout_width="137dp"
-                        android:layout_height="166dp"
-                        android:layout_weight="1"
-                        android:background="#FFFFFF"
-                        android:padding="10dp"
-                        android:orientation="vertical">
-
-                        <ImageButton
-                            android:layout_width="120dp"
-                            android:layout_height="100dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/profile_main_dramas"
-                            android:background="@null"
-                            android:clickable="false"
-                            android:focusable="false"
-                            android:layout_gravity="center" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/merriweather_black"
-                            android:textSize="14sp"
-                            android:text="Dramas"/>
-
-                        <TextView
-                            android:id="@+id/textDramas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/merriweather_light"
-                            android:textSize="9sp"
-                            android:text="You have 3 dramas saved" />
-
-                    </LinearLayout>
-                </FrameLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- INTERESTS -->
-        <LinearLayout
-            android:id="@+id/layoutInterests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/layoutFavourites">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/merriweather_light"
-                android:textSize="16sp"
-                android:text="Your Interests" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginBottom="10dp"
-                android:elevation="3dp"
-                android:background="@drawable/profile_rounded_8dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_vertical"
-                android:baselineAligned="false"
-                android:paddingHorizontal="10dp"
-                android:orientation="horizontal">
-
-                <!-- INTEREST 1 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:id="@+id/radMainIconBg1"
-                        android:layout_width="47dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/profile_rounded_red">
-
-                        <ImageButton
-                            android:id="@+id/radMainIcon1"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center"
-                            android:scaleType="fitCenter"
-                            android:background="@null"
-                            android:src="@drawable/profile_rad2_romance"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/radMainText1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/merriweather_black"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="Romance" />
-                </LinearLayout>
-
-                <!-- INTEREST 2 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:id="@+id/radMainIconBg2"
-                        android:layout_width="47dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/profile_rounded_yellow">
-
-                        <ImageButton
-                            android:id="@+id/radMainIcon2"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center"
-                            android:scaleType="fitCenter"
-                            android:background="@null"
-                            android:src="@drawable/profile_rad2_romance"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/radMainText2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/merriweather_black"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="Romance" />
-                </LinearLayout>
-
-                <!-- INTEREST 3 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:id="@+id/radMainIconBg3"
-                        android:layout_width="47dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/profile_rounded_red">
-
-                        <ImageButton
-                            android:id="@+id/radMainIcon3"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center"
-                            android:scaleType="fitCenter"
-                            android:background="@null"
-                            android:src="@drawable/profile_rad2_romance"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/radMainText3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/merriweather_black"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="Romance" />
-                </LinearLayout>
-
-                <!-- INTERESTS 4 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:id="@+id/radMainIconBg4"
-                        android:layout_width="47dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/profile_rounded_yellow">
-
-                        <ImageButton
-                            android:id="@+id/radMainIcon4"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_gravity="center"
-                            android:scaleType="fitCenter"
-                            android:background="@null"
-                            android:src="@drawable/profile_rad2_romance"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/radMainText4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/merriweather_black"
-                        android:layout_marginTop="3dp"
-                        android:textSize="10sp"
-                        android:text="Romance" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- MORE AND INFORMATION -->
-        <LinearLayout
-            android:id="@+id/layoutMore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/layoutInterests">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/merriweather_light"
-                android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="More and Information" />
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/layoutProfile">
 
-            <LinearLayout
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginBottom="10dp"
-                android:elevation="3dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/profile_rounded_8dp"
-                android:layout_marginTop="5dp"
-                android:paddingHorizontal="25dp"
-                android:paddingVertical="10dp"
-                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/merriweather_light"
+                    android:text="Your Favourites"
+                    android:textSize="16sp" />
 
-                <!-- TRAVEL TIPS -->
+                <!-- THREADS | DRAMA -->
                 <LinearLayout
-                    android:id="@+id/btnTips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <!-- THREADS -->
+                    <FrameLayout
+                        android:id="@+id/btnThreads"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="137dp"
+                            android:layout_height="166dp"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="1"
+                            android:background="#FFFFFF"
+                            android:elevation="3dp"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <ImageButton
+                                android:layout_width="120dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/profile_main_threads" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/merriweather_black"
+                                android:text="Threads"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/textThreads"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/merriweather_light"
+                                android:text="You have 2 threads saved"
+                                android:textSize="9sp" />
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="20dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <!-- DRAMAS -->
+                    <FrameLayout
+                        android:id="@+id/btnDramas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="137dp"
+                            android:layout_height="166dp"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="1"
+                            android:background="#FFFFFF"
+                            android:elevation="3dp"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <ImageButton
+                                android:layout_width="120dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/profile_main_dramas" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/merriweather_black"
+                                android:text="Dramas"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/textDramas"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/merriweather_light"
+                                android:text="You have 3 dramas saved"
+                                android:textSize="9sp" />
+
+                        </LinearLayout>
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- INTERESTS -->
+            <LinearLayout
+                android:id="@+id/layoutInterests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/layoutFavourites">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/merriweather_light"
+                    android:text="Your Interests"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+                    android:background="@drawable/profile_rounded_8dp"
+                    android:baselineAligned="false"
+                    android:elevation="3dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/profile_icon_tips" />
-
-                    <TextView
+                    <!-- INTEREST 1 -->
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:fontFamily="@font/merriweather_black"
-                        android:textSize="14sp"
-                        android:text="Travel Tips" />
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="13dp"
-                        android:src="@drawable/profile_icon_next" />
-                </LinearLayout>
+                        <FrameLayout
+                            android:id="@+id/radMainIconBg1"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_red">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/light_shades" />
+                            <ImageButton
+                                android:id="@+id/radMainIcon1"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/profile_rad2_romance" />
 
-                <!-- ABOUT -->
-                <LinearLayout
-                    android:id="@+id/btnAbout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginVertical="10dp"
-                    android:orientation="horizontal">
+                        </FrameLayout>
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/profile_icon_about" />
+                        <TextView
+                            android:id="@+id/radMainText1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="@font/merriweather_black"
+                            android:text="Romance"
+                            android:textSize="10sp" />
+                    </LinearLayout>
 
-                    <TextView
+                    <!-- INTEREST 2 -->
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:fontFamily="@font/merriweather_black"
-                        android:textSize="14sp"
-                        android:text="About" />
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="13dp"
-                        android:src="@drawable/profile_icon_next" />
+                        <FrameLayout
+                            android:id="@+id/radMainIconBg2"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_yellow">
+
+                            <ImageButton
+                                android:id="@+id/radMainIcon2"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/profile_rad2_romance" />
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radMainText2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="@font/merriweather_black"
+                            android:text="Romance"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 3 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radMainIconBg3"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_red">
+
+                            <ImageButton
+                                android:id="@+id/radMainIcon3"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/profile_rad2_romance" />
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radMainText3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="@font/merriweather_black"
+                            android:text="Romance"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <!-- INTERESTS 4 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radMainIconBg4"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_yellow">
+
+                            <ImageButton
+                                android:id="@+id/radMainIcon4"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/profile_rad2_romance" />
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radMainText4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="@font/merriweather_black"
+                            android:text="Romance"
+                            android:textSize="10sp" />
+                    </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/light_shades" />
+            <!-- MORE AND INFORMATION -->
+            <LinearLayout
+                android:id="@+id/layoutMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/layoutInterests">
 
-                <!-- SETTINGS -->
-                <LinearLayout
-                    android:id="@+id/btnSettings"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
+                    android:fontFamily="@font/merriweather_light"
+                    android:text="More and Information"
+                    android:textSize="16sp" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/profile_icon_setting" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/profile_rounded_8dp"
+                    android:elevation="3dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="10dp">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <!-- TRAVEL TIPS -->
+                    <LinearLayout
+                        android:id="@+id/btnTips"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/merriweather_black"
-                        android:textSize="14sp"
-                        android:text="Settings" />
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="7dp"
-                        android:layout_height="13dp"
-                        android:src="@drawable/profile_icon_next" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/profile_icon_tips" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/merriweather_black"
+                            android:text="Travel Tips"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="13dp"
+                            android:src="@drawable/profile_icon_next" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_shades" />
+
+                    <!-- ABOUT -->
+                    <LinearLayout
+                        android:id="@+id/btnAbout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/profile_icon_about" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/merriweather_black"
+                            android:text="About"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="13dp"
+                            android:src="@drawable/profile_icon_next" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_shades" />
+
+                    <!-- SETTINGS -->
+                    <LinearLayout
+                        android:id="@+id/btnSettings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/profile_icon_setting" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/merriweather_black"
+                            android:text="Settings"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="13dp"
+                            android:src="@drawable/profile_icon_next" />
+                    </LinearLayout>
+
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,8 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F8FA"
-    tools:context=".ProfileMainFragment">
+    android:background="#F7F8FA">
 
     <FrameLayout
         android:id="@+id/profileHeader"
@@ -51,146 +50,157 @@
             android:layout_gravity="end"/>
     </FrameLayout>
 
-    <!-- CONTENT -->
-    <LinearLayout
-        android:id="@+id/profileLayout"
-        android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileHeader">
 
-        <!-- GETTING AROUND THAILAND -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/merriweather_light"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-            android:text="Getting Around Thailand" />
-
+        <!-- CONTENT -->
         <LinearLayout
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="3dp"
-            android:layout_width="match_parent"
+            android:id="@+id/profileLayout"
+            android:layout_width="325dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/profile_rounded_8dp"
-            android:layout_marginTop="5dp"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="10dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileHeader">
 
+            <!-- GETTING AROUND THAILAND -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/merriweather_light"
-                android:textSize="12sp"
-                android:justificationMode="inter_word"
-                android:text="There are plenty of ways you can get around Bangkok eg., tuk-tuks, taxis, motorcycles, songthaews, buses, or trains. Just be sure to use ride-hailing apps like Grab or Bolt to avoid scams!" />
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:text="Getting Around Thailand" />
 
-            <ImageView
-                android:layout_width="282dp"
-                android:layout_height="188dp"
+            <LinearLayout
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/profile_rounded_8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/profile_content_taxi" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:weightSum="2">
-
-            <!-- BEST TIME TO VISIT-->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginEnd="5dp">
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/merriweather_light"
-                    android:textSize="16sp"
-                    android:layout_marginStart="5dp"
-                    android:text="Best Time to Visit" />
+                    android:textSize="12sp"
+                    android:justificationMode="inter_word"
+                    android:text="There are plenty of ways you can get around Bangkok eg., tuk-tuks, taxis, motorcycles, songthaews, buses, or trains. Just be sure to use ride-hailing apps like Grab or Bolt to avoid scams!" />
 
+                <ImageView
+                    android:layout_width="282dp"
+                    android:layout_height="188dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/profile_content_taxi" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:weightSum="2">
+
+                <!-- BEST TIME TO VISIT-->
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="210dp"
-                    android:background="@drawable/profile_rounded_8dp"
-                    android:layout_marginHorizontal="3dp"
-                    android:layout_marginBottom="10dp"
-                    android:elevation="3dp"
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginEnd="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/merriweather_light"
-                        android:textSize="12sp"
-                        android:justificationMode="inter_word"
-                        android:text="November-February, during cooler season."/>
+                        android:textSize="16sp"
+                        android:layout_marginStart="5dp"
+                        android:text="Best Time to Visit" />
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="159dp"
-                        android:layout_marginTop="5dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/profile_content_climate" />
+                        android:layout_height="210dp"
+                        android:background="@drawable/profile_rounded_8dp"
+                        android:layout_marginHorizontal="3dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="3dp"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="10dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_light"
+                            android:textSize="12sp"
+                            android:justificationMode="inter_word"
+                            android:text="November-February, during cooler season."/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="159dp"
+                            android:layout_marginTop="5dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/profile_content_climate" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-            <!-- ETIQUETTE -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginStart="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/merriweather_light"
-                    android:textSize="16sp"
-                    android:layout_marginStart="5dp"
-                    android:text="Etiquette" />
-
+                <!-- ETIQUETTE -->
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="210dp"
-                    android:background="@drawable/profile_rounded_8dp"
-                    android:layout_marginHorizontal="3dp"
-                    android:layout_marginBottom="10dp"
-                    android:elevation="3dp"
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/merriweather_light"
-                        android:textSize="12sp"
-                        android:textAlignment="textStart"
-                        android:text="Thailand values courtesy. Remove shoes before going indoors, dress modestly, respect monks, smile politely, and avoid touching heads or pointing feet at others. Remember to return Wai greetings as well."/>
+                        android:textSize="16sp"
+                        android:layout_marginStart="5dp"
+                        android:text="Etiquette" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="210dp"
+                        android:background="@drawable/profile_rounded_8dp"
+                        android:layout_marginHorizontal="3dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="3dp"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="10dp"
+                        android:orientation="vertical"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_light"
+                            android:textSize="12sp"
+                            android:textAlignment="textStart"
+                            android:text="Thailand values courtesy. Remove shoes before going indoors, dress modestly, respect monks, smile politely, and avoid touching heads or pointing feet at others. Remember to return Wai greetings as well."/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

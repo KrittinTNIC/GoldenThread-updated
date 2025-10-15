@@ -6,8 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F8FA"
-    tools:context=".ProfileMainFragment">
+    android:background="#F7F8FA">
 
     <FrameLayout
         android:id="@+id/profileHeader"
@@ -51,195 +50,205 @@
             android:layout_gravity="end"/>
     </FrameLayout>
 
-    <!-- CONTENT -->
-    <LinearLayout
-        android:id="@+id/profileLayout"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileHeader">
 
-        <!-- NOTIFICATION SETTINGS -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/merriweather_light"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-            android:text="Notification Settings" />
-
+        <!-- CONTENT -->
         <LinearLayout
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="3dp"
-            android:layout_width="match_parent"
+            android:id="@+id/profileLayout"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/profile_rounded_8dp"
-            android:layout_marginTop="5dp"
-            android:paddingHorizontal="25dp"
-            android:paddingVertical="10dp"
-            android:orientation="vertical">
-
-            <!-- PUSH NOTIFICATION -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/profile_icon_push" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/merriweather_black"
-                    android:textSize="14sp"
-                    android:text="Push Notification" />
-
-                <Switch
-                    android:id="@+id/switchPush"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:trackTint="@color/dark_accent"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_shades" />
-
-            <!-- EMAIL NOTIFICATION -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginVertical="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/profile_icon_email" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/merriweather_black"
-                    android:textSize="14sp"
-                    android:text="Email Notification" />
-
-                <Switch
-                    android:id="@+id/switchEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:trackTint="@color/dark_accent"/>
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- OTHER SETTINGS -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/merriweather_light"
-            android:textSize="16sp"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:text="Other Settings" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileHeader">
 
-        <LinearLayout
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/profile_rounded_8dp"
-            android:layout_marginTop="5dp"
-            android:paddingHorizontal="25dp"
-            android:paddingVertical="10dp"
-            android:orientation="vertical">
-
-            <!-- YOUR INTEREST -->
-            <LinearLayout
-                android:id="@+id/btnInterests"
-                android:layout_width="match_parent"
+            <!-- NOTIFICATION SETTINGS -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/merriweather_light"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:text="Notification Settings" />
+
+            <LinearLayout
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/profile_icon_interest" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/merriweather_black"
-                    android:textSize="14sp"
-                    android:text="Your Interests" />
-
-                <ImageView
-                    android:id="@+id/profile_your_interests"
-                    android:layout_width="7dp"
-                    android:layout_height="13dp"
-                    android:src="@drawable/profile_icon_next" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_shades" />
-
-            <!-- LOGOUT -->
-            <LinearLayout
-                android:id="@+id/btnLogout"
+                android:elevation="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginVertical="10dp"
-                android:orientation="horizontal">
+                android:background="@drawable/profile_rounded_8dp"
+                android:layout_marginTop="5dp"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="10dp"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/profile_icon_delete" />
-
-                <TextView
-                    android:layout_width="0dp"
+                <!-- PUSH NOTIFICATION -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/merriweather_black"
-                    android:textSize="14sp"
-                    android:text="Logout" />
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/profile_delete"
-                    android:layout_width="7dp"
-                    android:layout_height="13dp"
-                    android:src="@drawable/profile_icon_next" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/profile_icon_push" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/merriweather_black"
+                        android:textSize="14sp"
+                        android:text="Push Notification" />
+
+                    <Switch
+                        android:id="@+id/switchPush"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:trackTint="@color/dark_accent"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_shades" />
+
+                <!-- EMAIL NOTIFICATION -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/profile_icon_email" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/merriweather_black"
+                        android:textSize="14sp"
+                        android:text="Email Notification" />
+
+                    <Switch
+                        android:id="@+id/switchEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:trackTint="@color/dark_accent"/>
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-    </LinearLayout>
+            <!-- OTHER SETTINGS -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/merriweather_light"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:text="Other Settings" />
+
+            <LinearLayout
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="20dp"
+                android:elevation="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/profile_rounded_8dp"
+                android:layout_marginTop="5dp"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="10dp"
+                android:orientation="vertical">
+
+                <!-- YOUR INTEREST -->
+                <LinearLayout
+                    android:id="@+id/btnInterests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/profile_icon_interest" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/merriweather_black"
+                        android:textSize="14sp"
+                        android:text="Your Interests" />
+
+                    <ImageView
+                        android:id="@+id/profile_your_interests"
+                        android:layout_width="7dp"
+                        android:layout_height="13dp"
+                        android:src="@drawable/profile_icon_next" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_shades" />
+
+                <!-- LOGOUT -->
+                <LinearLayout
+                    android:id="@+id/btnLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/profile_icon_delete" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/merriweather_black"
+                        android:textSize="14sp"
+                        android:text="Logout" />
+
+                    <ImageView
+                        android:id="@+id/profile_delete"
+                        android:layout_width="7dp"
+                        android:layout_height="13dp"
+                        android:src="@drawable/profile_icon_next" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

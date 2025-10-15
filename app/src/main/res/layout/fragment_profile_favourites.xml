@@ -6,8 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F8FA"
-    tools:context=".ProfileMainFragment">
+    android:background="#F7F8FA">
 
     <FrameLayout
         android:id="@+id/profileHeader"
@@ -102,6 +101,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
@@ -110,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_gravity="center_horizontal"
                 android:visibility="invisible">
 
@@ -117,11 +118,12 @@
 
             </LinearLayout>
 
-        <!-- DRAMAS -->
+            <!-- DRAMAS -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginBottom="20dp"
                 android:gravity="center">
 
                 <GridLayout
@@ -146,10 +148,11 @@
     <LinearLayout
         android:id="@+id/nothingLayout"
         android:layout_width="317dp"
-        android:layout_height="550dp"
+        android:layout_height="317dp"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileHeader"

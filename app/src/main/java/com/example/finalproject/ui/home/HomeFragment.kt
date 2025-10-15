@@ -9,14 +9,12 @@ import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.finalproject.DatabaseHelper
 import com.example.finalproject.R
 import com.example.finalproject.adapter.LocationAdapter
 import com.example.finalproject.adapter.TourAdapter
 import com.example.finalproject.databinding.FragmentHomeBinding
-import com.example.finalproject.model.Drama
 import com.example.finalproject.model.Tour
 import com.example.finalproject.util.PreferencesManager
 import com.example.finalproject.util.SmartGenreExpander
@@ -51,6 +49,7 @@ class HomeFragment : Fragment() {
         setupSearch()
         setupClickListeners()
         loadData()
+        showRandomFact()
     }
 
     private fun initDependencies() {
@@ -87,14 +86,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun showRandomFact() {
-        var funFact = binding.tvFunFact
+        val funFact = binding.tvFunFact
 
         val generativeModel = GenerativeModel(
             modelName = "gemini-2.5-flash",
             apiKey = "AIzaSyC6LW8mzZ6lpNWqt2tKLklNTnzASD9yRkk"
         )
 
-        val prompt = "Write a one-sentence random fact about Thailand. " +
+        val prompt = "Write a one-sentence random fact about Thai dramas. " +
                 "Make it related with thai movies or series like, where do they take places, or how popular it is" +
                 "Get creative, don't stick with one topic."
 
