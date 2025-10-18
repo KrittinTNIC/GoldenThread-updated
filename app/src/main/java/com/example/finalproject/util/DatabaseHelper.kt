@@ -236,6 +236,38 @@ class DatabaseHelper(context: Context) :
         return tours
     }
 
+    fun getDramaById(dramaId: String): Drama? {
+        val db = this.readableDatabase
+        var drama: Drama? = null
+        val cursor = db.query(
+            "dramas",                // The table to query
+            null,                    // The columns to return (null returns all)
+            "drama_id = ?",          // The columns for the WHERE clause
+            arrayOf(dramaId),        // The values for the WHERE clause
+            null,                    // don't group the rows
+            null,                    // don't filter by row groups
+            null                     // The sort order
+        )
+
+        if (cursor.moveToFirst()) {
+            drama = Drama(
+                dramaId = cursor.getString(0),
+                titleEn = cursor.getString(1) ?: "",
+                titleTh = cursor.getString(2) ?: "",
+                posterUrl = cursor.getString(3) ?: "",
+                releaseYear = cursor.getInt(4),
+                duration = cursor.getString(5) ?: "",
+                summary = cursor.getString(6) ?: "",
+                genre = cursor.getString(7) ?: "Unknown"
+            )
+        }
+
+        cursor.close()
+        db.close()
+        return drama
+    }
+
+
     fun getDramasByLocation(locationId: String): List<Tour> {
         val dramas = mutableListOf<Tour>()
         val db = readableDatabase

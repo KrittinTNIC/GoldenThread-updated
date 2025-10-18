@@ -81,8 +81,8 @@ class HomeFragment : Fragment() {
             adapter = tourAdapter
         }
 
-        val initialFavorites = preferencesManager.getFavoriteTours()
-        tourAdapter.setFavorites(initialFavorites)
+        //val initialFavorites = preferencesManager.getFavoriteTours()
+        //tourAdapter.setFavorites(initialFavorites)
     }
 
     private fun showRandomFact() {

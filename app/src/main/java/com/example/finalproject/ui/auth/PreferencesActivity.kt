@@ -37,7 +37,6 @@ class PreferencesActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        binding.toolbar.title = "Select Your Preferences"
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }

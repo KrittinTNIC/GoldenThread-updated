@@ -30,14 +30,14 @@
                 android:layout_centerVertical="true" />
 
             <ImageButton
-                android:id="@+id/btnFavorite"
+                android:id="@+id/btnFavoriteDrama"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_favorite_border"
-                app:tint="@color/white" />
+                app:tint="@color/main" />
 
         </RelativeLayout>
 

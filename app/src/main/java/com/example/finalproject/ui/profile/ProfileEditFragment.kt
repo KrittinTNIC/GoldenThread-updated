@@ -35,7 +35,7 @@ class ProfileEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize database helper and preferences manager
+        // Initialise database helper and preferences manager
         userDatabaseHelper = UserDatabaseHelper(requireContext())
         preferencesManager = PreferencesManager(requireContext())
 

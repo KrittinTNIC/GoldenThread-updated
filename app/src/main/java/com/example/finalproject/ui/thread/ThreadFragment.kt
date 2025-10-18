@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -18,6 +19,11 @@ import com.example.finalproject.DatabaseHelper
 import com.example.finalproject.R
 import com.example.finalproject.adapter.DramaLocationAdapter
 import com.example.finalproject.databinding.FragmentThreadBinding
+import com.example.finalproject.ui.thread.data.DL
+import com.example.finalproject.ui.thread.data.Drama
+import com.example.finalproject.ui.thread.data.LocationData
+import com.example.finalproject.ui.thread.data.LocationDramaItem
+import com.example.finalproject.util.FavoriteManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -51,50 +57,8 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
     // Arguments for navigation
     private var targetLocationId: String? = null
 
-    // ---- Data classes ----
-    data class LocationData(
-        val id: String,
-        val nameEn: String,
-        val nameTh: String,
-        val address: String,
-        val latitude: Double,
-        val longitude: Double
-    )
-
-    data class Drama(
-        val dramaId: String,
-        val titleEn: String,
-        val titleTh: String,
-        val releaseYear: String
-    )
-
-    data class DL(
-        val dramaId: String,
-        val locationId: String,
-        val sceneNotes: String,
-        val orderInTrip: Int,
-        val carTravelMin: Int
-    )
-
-    data class LocationDramaItem(
-        val nameEn: String,
-        val nameTh: String,
-        val address: String,
-        val titleEn: String,
-        val titleTh: String,
-        val releaseYear: String,
-        val sceneNotes: String,
-        val orderInTrip: Int,
-        val carTravelMin: Int,
-        val latitude: Double,
-        val longitude: Double
-    )
-
-    // ------------------------
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Get location ID from arguments if passed
         targetLocationId = arguments?.getString("locationId")
     }
 
@@ -104,17 +68,14 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
     ): View {
         _binding = FragmentThreadBinding.inflate(inflater, container, false)
 
-        // Initialize database helper
         dbHelper = DatabaseHelper(requireContext())
 
-        // Recycler setup
-        recyclerAdapter = DramaLocationAdapter(emptyList(), this)
+        recyclerAdapter = DramaLocationAdapter(this)
         binding.locationRecyclerview.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = recyclerAdapter
         }
 
-        // BottomSheet
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
         bottomSheetBehavior?.apply {
             isHideable = true
@@ -122,10 +83,8 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
             peekHeight = 0
         }
 
-        // Setup back button
         setupBackButton()
 
-        // Map fragment initialization
         try {
             val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
             mapFragment?.getMapAsync(this) ?: Log.e(TAG, "MapFragment not found")
@@ -153,12 +112,10 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
         loadDataFromDatabase()
         addMarkersFromLocations()
 
-        // If we have a target location, zoom to it
         targetLocationId?.let { locationId ->
             zoomToLocation(locationId)
         }
 
-        // Dynamic scaling
         mMap?.setOnCameraIdleListener {
             val zoom = mMap?.cameraPosition?.zoom ?: return@setOnCameraIdleListener
             iconBitmap?.let { bmp ->
@@ -167,35 +124,30 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
             }
         }
 
-        // Marker click
         mMap?.setOnMarkerClickListener { marker ->
             val tag = marker.tag as? List<*>
             val items = tag?.filterIsInstance<LocationDramaItem>() ?: emptyList()
 
             if (items.isNotEmpty()) {
-                recyclerAdapter.updateData(items)
+                recyclerAdapter.submitList(items)
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
                 mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 15f))
             }
             true
         }
 
-        // Hide bottom sheet on map click
         mMap?.setOnMapClickListener {
             bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
-        // Enable user location
         checkLocationPermission()
     }
 
     private fun loadDataFromDatabase() {
         try {
-            // Load all locations
             locations.clear()
             val db = dbHelper.readableDatabase
 
-            // Query locations
             val locationCursor = db.rawQuery(
                 "SELECT location_id, name_en, name_th, address, latitude, longitude FROM locations",
                 null
@@ -216,7 +168,6 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
             locationCursor.close()
             Log.d(TAG, "Loaded ${locations.size} locations from database")
 
-            // Query dramas
             dramas.clear()
             val dramaCursor = db.rawQuery(
                 "SELECT drama_id, title_en, title_th, release_year FROM dramas",
@@ -234,9 +185,7 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
                 )
             }
             dramaCursor.close()
-            Log.d(TAG, "Loaded ${dramas.size} dramas from database")
 
-            // Query drama-location relationships
             dlList.clear()
             val dlCursor = db.rawQuery(
                 "SELECT drama_id, location_id, scene_notes, order_in_trip, car_travel_min FROM drama_locations",
@@ -255,10 +204,9 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
                 )
             }
             dlCursor.close()
-            Log.d(TAG, "Loaded ${dlList.size} drama-location relationships from database")
 
         } catch (e: Exception) {
-            Log.e(TAG, "Error loading data from database: ${e.message}", e)
+            Log.e(TAG, "Error loading data: ${e.message}", e)
         }
     }
 
@@ -301,22 +249,22 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
                     )
                 }
 
-                marker.tag = if (items.isNotEmpty()) {
-                    items
-                } else {
-                    listOf(LocationDramaItem(
-                        nameEn = loc.nameEn,
-                        nameTh = loc.nameTh,
-                        address = loc.address,
-                        titleEn = "No associated drama",
-                        titleTh = "",
-                        releaseYear = "",
-                        sceneNotes = "",
-                        orderInTrip = 0,
-                        carTravelMin = 0,
-                        latitude = loc.latitude,
-                        longitude = loc.longitude
-                    ))
+                marker.tag = items.ifEmpty {
+                    listOf(
+                        LocationDramaItem(
+                            nameEn = loc.nameEn,
+                            nameTh = loc.nameTh,
+                            address = loc.address,
+                            titleEn = "No associated drama",
+                            titleTh = "",
+                            releaseYear = "",
+                            sceneNotes = "",
+                            orderInTrip = 0,
+                            carTravelMin = 0,
+                            latitude = loc.latitude,
+                            longitude = loc.longitude
+                        )
+                    )
                 }
 
                 markers.add(marker)
@@ -342,14 +290,11 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
         }
 
         targetMarker?.let { marker ->
-            // Zoom to the marker
             mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 15f))
-
-            // Show the bottom sheet with location info
             val tag = marker.tag as? List<*>
             val items = tag?.filterIsInstance<LocationDramaItem>() ?: emptyList()
             if (items.isNotEmpty()) {
-                recyclerAdapter.updateData(items)
+                recyclerAdapter.submitList(items)
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
@@ -361,7 +306,6 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
         return BitmapDescriptorFactory.fromBitmap(scaled)
     }
 
-    // --- Location Permission ---
     private fun checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -390,12 +334,9 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
         }
     }
 
-    // ---- Recycler button click callbacks ----
     override fun onGoToDrama(item: LocationDramaItem) {
-        // Find the drama ID from the item
         val drama = dramas.find { it.titleEn == item.titleEn }
         drama?.let {
-            // Navigate to tour details with the drama ID
             findNavController().navigate(
                 R.id.action_thread_to_tourDetails,
                 bundleOf("tourId" to drama.dramaId)
@@ -406,7 +347,6 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
     }
 
     override fun onNextPoint(item: LocationDramaItem) {
-        // Find next point with same drama and orderInTrip + 1
         val nextMarker = markers.find { m ->
             val tag = m.tag as? List<*>
             tag?.any {
@@ -418,21 +358,31 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
 
         nextMarker?.let {
             mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it.position, 15f))
-            // Update recycler to show the new point
             val tag = nextMarker.tag as? List<*>
             val nextItems = tag?.filterIsInstance<LocationDramaItem>()?.filter {
                 it.titleEn == item.titleEn
             } ?: emptyList()
 
             if (nextItems.isNotEmpty()) {
-                recyclerAdapter.updateData(nextItems)
+                recyclerAdapter.submitList(nextItems)
             }
         }
     }
 
-    override fun onFavorite(item: LocationDramaItem) {
-        // Implement favorite toggle logic here
-        Log.d(TAG, "Favorite clicked: ${item.titleEn}")
+    // ✅ Added favorite handling here
+    override fun onFavorite(item: LocationDramaItem, isFavorite: Boolean) {
+        if (isFavorite) {
+            FavoriteManager.addThreadFavorite(item)
+            Toast.makeText(requireContext(), "Added to favorites!", Toast.LENGTH_SHORT).show()
+        } else {
+            FavoriteManager.removeThreadFavorite(item)
+            Toast.makeText(requireContext(), "Removed from favorites", Toast.LENGTH_SHORT).show()
+        }
+
+        val index = recyclerAdapter.currentList.indexOf(item)
+        if (index != -1) {
+            recyclerAdapter.notifyItemChanged(index)
+        }
     }
 
     override fun onDestroyView() {

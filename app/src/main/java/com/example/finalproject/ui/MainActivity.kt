@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.finalproject.util.Favoritemanager
+import com.example.finalproject.util.FavoriteManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Initialize FavoriteManager
-        Favoritemanager.init(this)
+        FavoriteManager.init(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

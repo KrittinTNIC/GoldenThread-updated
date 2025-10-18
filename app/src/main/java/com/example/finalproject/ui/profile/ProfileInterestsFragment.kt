@@ -42,7 +42,7 @@ class ProfileInterestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize database and preferences manager
+        // Initialise database and preferences manager
         databaseHelper = DatabaseHelper(requireContext())
         preferencesManager = PreferencesManager(requireContext())
 

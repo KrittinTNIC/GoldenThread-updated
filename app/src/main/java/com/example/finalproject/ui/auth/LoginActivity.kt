@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.finalproject.MainActivity
 import com.example.finalproject.databinding.ActivityLoginBinding
 import com.example.finalproject.util.PreferencesManager
-import com.example.finalproject.util.SupabaseUserManager
+import com.example.finalproject.util.SupabaseManager
 import com.example.finalproject.util.UserDatabaseHelper
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var userDatabaseHelper: UserDatabaseHelper
 
-    private val supabaseManager = SupabaseUserManager()
+    private val supabaseManager = SupabaseManager()
 
     private val RC_SIGN_IN = 1001
 
@@ -125,10 +125,10 @@ class LoginActivity : AppCompatActivity() {
                     10 -> {
                         // This is the development configuration error - show friendly message
                         Toast.makeText(this,
-                            "Google Sign-In requires additional setup for development.\nPlease use email login for now.",
+                            "Please use email login for now.",
                             Toast.LENGTH_LONG
                         ).show()
-                        Log.d("LoginActivity", "Google Sign-In Error 10: Normal for development without Firebase")
+                        Log.d("LoginActivity", "Unexpected error")
                     }
                     12501 -> {
                         // User cancelled
@@ -156,7 +156,12 @@ class LoginActivity : AppCompatActivity() {
                     user?.let {
                         if (!supabaseManager.isUserInCloud(email)) {
                             // Backup to Supabase if not exists
-                            supabaseManager.saveUserToCloud(it)
+                            supabaseManager.saveUserToCloud(
+                                firstName = it.firstName,
+                                lastName = it.lastName,
+                                email = it.email,
+                                profileImage = it.profileImageUri ?: ""
+                            )
                         }
                     }
 

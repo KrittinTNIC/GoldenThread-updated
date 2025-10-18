@@ -46,6 +46,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:checked="true"
+                    android:textAlignment="center"
                     android:background="@drawable/profile_btn_tabs" />
 
                 <View
@@ -62,6 +63,7 @@
                     android:fontFamily="@font/merriweather_black"
                     android:textSize="12sp"
                     android:checked="false"
+                    android:textAlignment="center"
                     android:background="@drawable/profile_btn_tabs" />
 
             </RadioGroup>
@@ -97,13 +99,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- THREADS -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
 
+            <!-- THREADS -->
             <LinearLayout
                 android:id="@+id/threadsLayout"
                 android:layout_width="match_parent"
@@ -119,28 +122,20 @@
             </LinearLayout>
 
             <!-- DRAMAS -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <GridLayout
+                android:id="@+id/dramasLayout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="20dp"
-                android:gravity="center">
+                android:columnCount="2"
+                android:alignmentMode="alignMargins"
+                android:orientation="horizontal"
+                android:rowOrderPreserved="false"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible">
 
-                <GridLayout
-                    android:id="@+id/dramasLayout"
-                    android:layout_width="355dp"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:alignmentMode="alignMargins"
-                    android:orientation="horizontal"
-                    android:rowOrderPreserved="false"
-                    android:layout_marginTop="10dp"
-                    android:visibility="invisible">
+                <!-- ITEM DRAMA -->
 
-                    <!-- ITEM DRAMA -->
-
-                </GridLayout>
-            </LinearLayout>
+            </GridLayout>
         </LinearLayout>
     </ScrollView>
 

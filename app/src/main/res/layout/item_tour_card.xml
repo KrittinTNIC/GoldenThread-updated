@@ -36,7 +36,7 @@
 
             <!-- Favorite button positioned like a polaroid sticker -->
             <ImageButton
-                android:id="@+id/btnFavorite"
+                android:id="@+id/btnFavoriteDrama"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_alignParentTop="true"

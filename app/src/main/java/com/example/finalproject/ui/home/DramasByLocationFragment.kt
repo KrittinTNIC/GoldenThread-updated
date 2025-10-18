@@ -63,7 +63,7 @@ class DramasByLocationFragment : Fragment() {
             adapter = tourAdapter
         }
 
-        tourAdapter.setFavorites(preferencesManager.getFavoriteTours())
+        // tourAdapter.setFavorites(preferencesManager.getFavoriteTours())
     }
 
     private fun loadDramasByLocation() {

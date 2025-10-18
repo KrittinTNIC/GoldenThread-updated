@@ -158,11 +158,11 @@
                         android:id="@+id/tvFunFact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Loading fun fact..."
-                        android:textSize="16sp"
-                        android:textColor="#000000"
                         android:lineSpacingExtra="4dp"
-                        android:padding="20dp" />
+                        android:padding="20dp"
+                        android:text="Loading fun fact..."
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
 
                 </com.google.android.material.card.MaterialCardView>
 

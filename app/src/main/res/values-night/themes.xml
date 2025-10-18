@@ -18,6 +18,10 @@
         <item name="colorSurfaceVariant">@color/dark_accent</item>
         <item name="colorOnSurfaceVariant">@color/light_accent</item>
 
+        <!-- to hide -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
         <!-- Background -->
         <item name="android:windowBackground">@color/dark_shades</item>
 

@@ -38,15 +38,34 @@
                 android:orientation="vertical">
 
                 <!-- Half-Sheet Poster -->
-                <ImageView
-                    android:id="@+id/ivPoster"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="211dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="Drama poster"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/placeholder_poster" />
+                    android:layout_height="211dp">
 
+                    <ImageView
+                        android:id="@+id/ivPoster"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="Drama poster"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/placeholder_poster" />
+
+                    <!-- Favorite Button positioned like a sticker -->
+                    <ImageButton
+                        android:id="@+id/btnFavoriteDrama"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="16dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_favorite_border"
+                        app:tint="@color/white"
+                        android:contentDescription="Add to favorites" />
+
+                </RelativeLayout>
                 <!-- Content below poster -->
                 <LinearLayout
                     android:layout_width="match_parent"

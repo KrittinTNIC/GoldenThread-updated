@@ -3,41 +3,29 @@ package com.example.finalproject.ui
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.finalproject.R
 import com.example.finalproject.databinding.FragmentProfileFavouritesBinding
-import com.example.finalproject.model.Drama
-import com.example.finalproject.util.Favoritemanager
-import com.example.finalproject.util.loadDramasFromCSV
+import com.example.finalproject.util.FavoriteManager
 import androidx.core.view.isEmpty
 import com.example.finalproject.DatabaseHelper
-import com.example.finalproject.R
-import com.example.finalproject.model.Tour
-import com.example.finalproject.ui.ProfileMainFragment
-import com.example.finalproject.util.PreferencesManager
 
-// Suppress string/img warnings
 @SuppressLint("SetTextI18n")
-
 class ProfileFavouritesFragment : Fragment() {
 
     private var _binding: FragmentProfileFavouritesBinding? = null
+    private lateinit var dbHelper: DatabaseHelper
     private val binding get() = _binding!!
-
-    private lateinit var allDramas: List<Drama>
-    private lateinit var userDramas: List<Drama>
-    private lateinit var userFavoriteTours: List<Tour>
-    private lateinit var databaseHelper: DatabaseHelper
-    private lateinit var preferencesManager: PreferencesManager
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,228 +35,217 @@ class ProfileFavouritesFragment : Fragment() {
         return binding.root
     }
 
-    // ============================== CONTENT ==============================
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize database helper and preferences manager
-        databaseHelper = DatabaseHelper(requireContext())
-        preferencesManager = PreferencesManager(requireContext())
+        dbHelper = DatabaseHelper(requireContext())
+        FavoriteManager.init(requireContext())
 
-
-        // Load favorite tours from database
-        val favoriteTourIds = preferencesManager.getFavoriteTours()
-        userFavoriteTours = databaseHelper.getAvailableTours().filter { tour ->
-            tour.dramaId in favoriteTourIds
-        }
-
-        // Load favorite dramas
-        allDramas = databaseHelper.getAllDramas()
-        val favoriteDramaIds: List<String> = Favoritemanager.getFavorites().map { it.dramaId }
-        userDramas = allDramas.filter { it.dramaId in favoriteDramaIds }
-
-
-        // =========== Toggle View ===========
-        val btnThreads = binding.btnThreads
-        val btnDramas = binding.btnDramas
-
-        when (arguments?.getString("toggle")) {     // If Toggle is 'Threads', show Threads container
-            "Threads" -> {
-                btnThreads.isChecked = true
-                btnDramas.isChecked = false
-                showThreads()
-            }
-            "Dramas" -> {                           // If Toggle is 'Dramas', show Threads container
-                btnThreads.isChecked = false
-                btnDramas.isChecked = true
-                showDramas()
-            }
-        }
-
-        // =========== Buttons ===========
-        binding.btnBack.setOnClickListener {        // To ProfileMainFragment
+        binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        btnThreads.setOnClickListener {             // To show Threads container
-            btnThreads.isChecked = true
-            btnDramas.isChecked = false
+        binding.btnDramas.setOnClickListener {
+            showDramas()
+        }
+
+        binding.btnThreads.setOnClickListener {
             showThreads()
         }
 
-        btnDramas.setOnClickListener {              // To show Dramas container
-            btnThreads.isChecked = false
-            btnDramas.isChecked = true
+        val toggle = arguments?.getString("toggle") ?: "Dramas"
+        if (toggle == "Threads") {
+            showThreads()
+            binding.btnThreads.isChecked = true
+            binding.btnDramas.isChecked = false
+        } else {
             showDramas()
+            binding.btnThreads.isChecked = false
+            binding.btnDramas.isChecked = true
         }
     }
-    // =========== Functions ===========
-    // fun showThreads: Show lists of favourite threads
-    // fun showDrama: Show lists of favourite dramas
+
+    private fun showDramas() {
+        binding.dramasLayout.visibility = View.VISIBLE
+        binding.threadsLayout.visibility = View.GONE
+        loadDramaFavorites()
+    }
+
     private fun showThreads() {
-        val threadsLayout = binding.threadsLayout
-        val dramasLayout = binding.dramasLayout
-        val nothingLayout = binding.nothingLayout
-
-        dramasLayout.visibility = View.GONE             // Remove old containers
-        nothingLayout.visibility = View.GONE
-        threadsLayout.removeAllViews()
-
-        if (userFavoriteTours.isNotEmpty()) {
-            threadsLayout.visibility = View.VISIBLE     // Show 'threads' container
-            dramasLayout.visibility = View.GONE         // Hide 'dramas' container
-            nothingLayout.visibility = View.GONE        // Hide 'nothing' container
-
-            var groupIndex = 1
-
-            userFavoriteTours.forEach { tour ->
-                val itemThread = layoutInflater.inflate(R.layout.item_thread, threadsLayout, false)
-                val container = itemThread.findViewById<LinearLayout>(R.id.contentContainer)
-                val textCount = itemThread.findViewById<TextView>(R.id.textCount)
-
-                textCount.text = "No. $groupIndex"
-                groupIndex++
-
-                // Get locations for this tour
-                val tourLocations = databaseHelper.getTourLocations(tour.dramaId)
-
-                // Create sub thread container for each location in the tour
-                tourLocations.forEach { location ->
-                    val contentView = layoutInflater.inflate(R.layout.item_thread_content, container, false)
-                    val textName = contentView.findViewById<TextView>(R.id.threadsName)
-                    val textNameTH = contentView.findViewById<TextView>(R.id.threadsNameTH)
-
-                    // Show container and write name
-                    container.addView(contentView)
-                    textName.text = location.name
-                    textNameTH.text = location.name // You might want to add Thai names to your database
-
-                    // Get buttons
-                    val btnExplored = itemThread.findViewById<RadioButton>(R.id.btnExplored)
-                    val btnOngoing = itemThread.findViewById<RadioButton>(R.id.btnOngoing)
-                    val btnRemove = itemThread.findViewById<RadioButton>(R.id.btnRemove)
-
-                    // Check if this tour is in favorites (explored state)
-                    val isTourFavorite = preferencesManager.getFavoriteTours().contains(tour.dramaId)
-                    if (isTourFavorite) {
-                        btnExplored.isChecked = true
-                        btnOngoing.isChecked = false
-                        // Change the format of the buttons
-                        btnExplored.setTextColor(Color.WHITE)
-                        btnOngoing.setTextColor(Color.BLACK)
-                    } else {
-                        btnExplored.isChecked = false
-                        btnOngoing.isChecked = true
-                        // Change the format of the buttons
-                        btnExplored.setTextColor(Color.BLACK)
-                        btnOngoing.setTextColor(Color.WHITE)
-                    }
-
-
-                    // =========== Buttons ===========
-                    btnExplored.setOnClickListener {                // To mark as 'explored'
-                        preferencesManager.addFavoriteTour(tour.dramaId)
-                        btnExplored.isChecked = true
-                        btnOngoing.isChecked = false
-                        // Change the format of the buttons
-                        btnExplored.setTextColor(Color.WHITE)
-                        btnOngoing.setTextColor(Color.BLACK)
-                    }
-
-                    btnOngoing.setOnClickListener {                 // To mark as 'ongoing'
-                        preferencesManager.removeFavoriteTour(tour.dramaId)
-                        btnExplored.isChecked = false
-                        btnOngoing.isChecked = true
-                        // Change the format of the buttons
-                        btnExplored.setTextColor(Color.BLACK)
-                        btnOngoing.setTextColor(Color.WHITE)
-                    }
-
-                    btnRemove.setOnClickListener {                  // To remove thread container
-                        preferencesManager.removeFavoriteTour(tour.dramaId)
-                        threadsLayout.removeView(itemThread)
-
-                        // Re-number
-                        var number = 1
-                        for (i in 0 until threadsLayout.childCount) {
-                            val threadItem = threadsLayout.getChildAt(i)
-                            val countText = threadItem.findViewById<TextView>(R.id.textCount)
-                            countText.text = "No. $number"
-                            number++
-                        }
-
-                        // If the thread containers get removed until empty, show 'nothing' container
-                        if (threadsLayout.isEmpty()) {
-                            threadsLayout.visibility = View.GONE
-                            binding.nothingLayout.visibility = View.VISIBLE
-                        }
-                    }
-                }
-                // Create sub thread container
-                threadsLayout.addView(itemThread)
-
-                // Show thread containers when the list becomes available again
-                threadsLayout.visibility = View.VISIBLE
-            }
-        }
+        binding.dramasLayout.visibility = View.GONE
+        binding.threadsLayout.visibility = View.VISIBLE
+        loadThreadFavorites()
     }
 
-    // Dramas
-    fun showDramas() {
-        val threadsLayout = binding.threadsLayout
+    private fun loadDramaFavorites() {
+        val favoriteDramas = FavoriteManager.getDramaFavorites()
         val dramasLayout = binding.dramasLayout
-        val nothingLayout = binding.nothingLayout
-
-        threadsLayout.visibility = View.GONE                    // Remove old containers
-        nothingLayout.visibility = View.GONE
         dramasLayout.removeAllViews()
 
-        if (userDramas.isNotEmpty()) {
-            dramasLayout.visibility = View.VISIBLE              // Show 'dramas' container
-            threadsLayout.visibility = View.GONE                // Hide 'threads' container
-            nothingLayout.visibility = View.GONE                // Hide 'nothing' container
+        if (favoriteDramas.isEmpty()) {
+            binding.nothingLayout.visibility = View.VISIBLE
+            dramasLayout.visibility = View.GONE
+        } else {
+            binding.nothingLayout.visibility = View.GONE
+            dramasLayout.visibility = View.VISIBLE
+            favoriteDramas.forEach { drama ->
+                val dramaView = layoutInflater.inflate(R.layout.item_drama, dramasLayout, false)
 
-            // Create drama container
-            userDramas.forEach { drama ->
-                val itemDrama = layoutInflater.inflate(R.layout.item_drama, dramasLayout, false)
-                val imgDrama = itemDrama.findViewById<ImageButton>(R.id.imgDramas)
-                val textDrama = itemDrama.findViewById<TextView>(R.id.textDramas)
-                val btnRemove = itemDrama.findViewById<RadioButton>(R.id.btnRemove)
+                val title = dramaView.findViewById<TextView>(R.id.textDramas)
+                val img = dramaView.findViewById<ImageButton>(R.id.imgDramas)
 
-                // Get image and write name
-                Glide.with(this)
-                    .load(drama.posterUrl)
-                    .placeholder(R.drawable.profile_pic_default)
-                    .error(R.drawable.profile_pic_default)
-                    .into(imgDrama)
-                textDrama.text = drama.titleEn
+                title.text = drama.titleEn
+                Glide.with(this).load(drama.posterUrl).into(img)
 
                 // =========== Buttons ===========
-                btnRemove.setOnClickListener {
-                    Favoritemanager.removeFavorite(drama)
-                    dramasLayout.removeView(itemDrama)
-                    // If the drama containers get removed until empty, show 'nothing' container
-                    if (Favoritemanager.getFavorites().isEmpty()) {
-                        dramasLayout.visibility = View.GONE
-                        nothingLayout.visibility = View.VISIBLE
-                    }
+                val removeBtn = dramaView.findViewById<RadioButton>(R.id.btnRemove)
+                removeBtn.setOnClickListener {
+                    removeBtn.isChecked = false
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Remove Favorite")
+                        .setMessage("Are you sure you want to remove '${drama.titleEn}' from favorites?")
+                        .setPositiveButton("Remove") { _, _ ->
+                            FavoriteManager.removeDramaFavorite(drama)
+                            loadDramaFavorites() // Refresh the list
+                        }
+                        .setNegativeButton("Cancel", null)
+                        .show()
                 }
-                // Create drama container
-                dramasLayout.addView(itemDrama)
 
-                // Show drama containers when the list becomes available again
-                dramasLayout.visibility = View.VISIBLE
+                dramasLayout.addView(dramaView)
             }
-        } else {
-            threadsLayout.visibility = View.GONE
-            dramasLayout.visibility = View.GONE
-            nothingLayout.visibility = View.VISIBLE     // Shows 'nothing' container
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private fun loadThreadFavorites() {
+        val favoriteThreads = FavoriteManager.getThreadFavorites()
+        val threadsLayout = binding.threadsLayout
+        threadsLayout.removeAllViews()
 
+        if (favoriteThreads.isEmpty()) {
+            binding.nothingLayout.visibility = View.VISIBLE
+            threadsLayout.visibility = View.GONE
+            return
+        } else {
+            binding.nothingLayout.visibility = View.GONE
+            threadsLayout.visibility = View.VISIBLE
+        }
+
+        // Group by title
+        val threadsGrouped = favoriteThreads.groupBy { it.titleEn }
+
+        threadsGrouped.entries.forEachIndexed { index, entry ->
+            val titleEn = entry.key
+
+            // Find drama to get dramaId
+            val drama = dbHelper.getAvailableTours().find { it.titleEn == titleEn }
+            val locations = drama?.let { dbHelper.getTourLocations(it.dramaId) } ?: listOf()
+
+            // Thread layout
+            val threadView = layoutInflater.inflate(R.layout.item_thread, threadsLayout, false)
+            val count = threadView.findViewById<TextView>(R.id.textCount)
+
+            count?.text = "No. ${index + 1}"
+
+            val contentContainer = threadView.findViewById<LinearLayout>(R.id.contentContainer)
+            contentContainer.removeAllViews()
+            // Thread content
+            locations.forEach { loc ->
+                val contentView = layoutInflater.inflate(R.layout.item_thread_content, contentContainer, false)
+                val name = contentView.findViewById<TextView>(R.id.threadsName)
+                val nameTH = contentView.findViewById<TextView>(R.id.threadsNameTH)
+
+                name.text = loc.name
+                nameTH.text = loc.address
+
+                contentContainer.addView(contentView)
+            }
+
+            // =========== Buttons ===========
+            val exploredBtn = threadView.findViewById<RadioButton>(R.id.btnExplored)
+            val ongoingBtn = threadView.findViewById<RadioButton>(R.id.btnOngoing)
+
+            val dramaId = drama?.dramaId ?: ""
+            val exploredObj = FavoriteManager.getExploredStatus(drama?.dramaId ?: "")
+            exploredBtn.isChecked = exploredObj?.explored == true
+            ongoingBtn.isChecked = exploredObj?.explored == false
+
+            fun textColour() {
+                exploredBtn.setTextColor(
+                    if (exploredBtn.isChecked)
+                        Color.WHITE
+                    else
+                        Color.BLACK)
+                ongoingBtn.setTextColor(
+                    if (ongoingBtn.isChecked)
+                        Color.WHITE else
+                            Color.BLACK)
+            }
+
+            textColour()
+            exploredBtn.setOnClickListener {
+                if (dramaId.isNotEmpty()) {
+                    FavoriteManager.setExploredStatus(dramaId, true)
+                    exploredBtn.isChecked = true
+                    ongoingBtn.isChecked = false
+                    textColour()
+
+                    findNavController().previousBackStackEntry
+                        ?.savedStateHandle
+                        ?.set("threadsUpdated", true)
+                }
+            }
+
+            ongoingBtn.setOnClickListener {
+                if (dramaId.isNotEmpty()) {
+                    FavoriteManager.setExploredStatus(dramaId, false)
+                    ongoingBtn.isChecked = true
+                    exploredBtn.isChecked = false
+                    textColour()
+
+                    findNavController().previousBackStackEntry
+                        ?.savedStateHandle
+                        ?.set("threadsUpdated", true)
+                }
+            }
+
+            val removeBtn = threadView.findViewById<ImageButton>(R.id.btnRemove)
+            removeBtn.setOnClickListener {
+
+            }
+            removeBtn.setOnClickListener {
+                val prevExplored = exploredBtn.isChecked
+                val prevOngoing = ongoingBtn.isChecked
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Remove Favorite")
+                    .setMessage("Are you sure you want to remove No '${index + 1}' from favorites?")
+                    .setPositiveButton("Remove") { _, _ ->
+                        val favoriteThreads = FavoriteManager.getThreadFavorites()
+                        favoriteThreads
+                            .filter { it.titleEn == titleEn }
+                            .forEach { FavoriteManager.removeThreadFavorite(it)
+                        }
+                        threadsLayout.removeView(threadView)
+
+                        if (threadsLayout.isEmpty()) {
+                            binding.nothingLayout.visibility = View.VISIBLE
+                            threadsLayout.visibility = View.GONE
+                        }
+
+                        val prevEntry = findNavController().previousBackStackEntry
+                        prevEntry?.savedStateHandle?.set("threadsUpdated", false)
+                        prevEntry?.savedStateHandle?.set("threadsUpdated", true)
+                    }
+                    .setNegativeButton("Cancel") { _, _ ->
+                        exploredBtn.isChecked = prevExplored
+                        ongoingBtn.isChecked = prevOngoing
+                        textColour()
+                    }
+                    .show()
+            }
+
+            threadsLayout.addView(threadView)
+        }
+    }
 }

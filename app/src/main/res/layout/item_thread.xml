@@ -79,21 +79,32 @@
             android:textSize="10sp"
             android:text="ONGOING" />
 
-        <RadioButton
-            android:id="@+id/btnRemove"
-            android:button="@null"
-            android:layout_marginHorizontal="3dp"
-            android:layout_marginBottom="5dp"
-            android:elevation="1dp"
-            android:textAlignment="center"
+        <FrameLayout
             android:layout_width="76dp"
             android:layout_height="26dp"
-            android:background="@drawable/profile_btn_toggle"
-            android:checked="false"
-            android:fontFamily="@font/merriweather_black"
-            android:textColor="@color/black"
-            android:textSize="10sp"
-            android:text="REMOVE" />
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="4dp">
+
+            <ImageButton
+                android:id="@+id/btnRemove"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/profile_btn_toggle"
+                android:scaleType="centerCrop"
+                android:contentDescription="Remove" />
+
+            <TextView
+                android:id="@+id/btnRemoveText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="REMOVE"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:fontFamily="@font/merriweather_black"/>
+        </FrameLayout>
 
     </RadioGroup>
 </LinearLayout>
+

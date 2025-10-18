@@ -24,7 +24,7 @@ class TourAdapter(
         private val ivTourPoster: ImageView = itemView.findViewById(R.id.ivTourPoster)
         private val tvTourTitle: TextView = itemView.findViewById(R.id.tvTourTitle)
         private val tvTourSummary: TextView = itemView.findViewById(R.id.tvTourSummary)
-        private val btnFavorite: ImageButton = itemView.findViewById(R.id.btnFavorite)
+        private val btnFavorite: ImageButton = itemView.findViewById(R.id.btnFavoriteDrama)
 
         fun bind(tour: Tour) {
             tvTourTitle.text = tour.titleEn
@@ -39,20 +39,31 @@ class TourAdapter(
                 .into(ivTourPoster)
 
             // Set favorite state
-            updateFavoriteIcon(favorites.contains(tour.dramaId))
+            // updateFavoriteIcon(favorites.contains(tour.dramaId))
 
             // Set click listeners
             itemView.setOnClickListener {
                 onTourClick(tour)
             }
 
+            /**
             btnFavorite.setOnClickListener {
-                val newFavoriteState = !favorites.contains(tour.dramaId)
-                onFavoriteClick(tour, newFavoriteState)
+                val isCurrentlyFavorite = favorites.contains(tour.dramaId)
+                val newFavoriteState = !isCurrentlyFavorite
+                onFavoriteClick(tour, newFavoriteState) // Notify fragment
+
+                // Update internal state and UI
+                if (newFavoriteState) {
+                    favorites.add(tour.dramaId)
+                } else {
+                    favorites.remove(tour.dramaId)
+                }
                 updateFavoriteIcon(newFavoriteState)
             }
+            **/
         }
 
+        /**
         private fun updateFavoriteIcon(isFavorite: Boolean) {
             val favoriteIcon = if (isFavorite) {
                 R.drawable.ic_favorite_filled
@@ -61,6 +72,7 @@ class TourAdapter(
             }
             btnFavorite.setImageResource(favoriteIcon)
         }
+        **/
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TourViewHolder {

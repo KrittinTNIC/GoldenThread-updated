@@ -4,52 +4,56 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.finalproject.databinding.ActivitySignupBinding
 import com.example.finalproject.util.PreferencesManager
+import com.example.finalproject.util.SupabaseManager
 import com.example.finalproject.util.UserDatabaseHelper
-import com.example.finalproject.util.SupabaseUserManager
 import kotlinx.coroutines.launch
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var pickImageLauncher: ActivityResultLauncher<PickVisualMediaRequest>
-    private lateinit var dbHelper: UserDatabaseHelper
-    private lateinit var supabaseManager: SupabaseUserManager
+    private val supabaseManager = SupabaseManager()
+    private lateinit var userDatabaseHelper: UserDatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dbHelper = UserDatabaseHelper(this)
-        preferencesManager = PreferencesManager(this)
-        supabaseManager = SupabaseUserManager() // 👈 Cloud sync helper
 
-        // --- Verify database creation
+        userDatabaseHelper = UserDatabaseHelper(this)
+        preferencesManager = PreferencesManager(this)
+
+        // Force database creation by getting a readable database
         try {
-            val db = dbHelper.readableDatabase
+            val db = userDatabaseHelper.readableDatabase
+            Log.d("SignUpActivity", "Database created/opened successfully")
+
+            // Check if table exists
             val cursor = db.rawQuery(
                 "SELECT name FROM sqlite_master WHERE type='table' AND name='users'",
                 null
             )
-            val exists = cursor.count > 0
-            Log.d("SignUpActivity", "Users table exists: $exists")
+            val tableExists = cursor.count > 0
+            Log.d("SignUpActivity", "Users table exists: $tableExists")
             cursor.close()
             db.close()
+
         } catch (e: Exception) {
-            Log.e("SignUpActivity", "DB Error", e)
+            Log.e("SignUpActivity", "Database error", e)
             Toast.makeText(this, "Database error: ${e.message}", Toast.LENGTH_LONG).show()
             return
         }
 
-        // --- Pick image
+        // Profile picture picker
         pickImageLauncher = registerForActivityResult(
             ActivityResultContracts.PickVisualMedia()
         ) { uri ->
@@ -63,12 +67,10 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.btnSelectPhoto.setOnClickListener {
-            pickImageLauncher.launch(
-                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-            )
+            pickImageLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
-        // --- Sign up button
+        // Continue button click listener
         binding.btnContinueSignUp.setOnClickListener {
             val first = binding.etFirstName.text.toString().trim()
             val last = binding.etLastName.text.toString().trim()
@@ -76,9 +78,7 @@ class SignUpActivity : AppCompatActivity() {
             val pass = binding.etPassword.text.toString()
             val confirmPass = binding.etConfirmPassword.text.toString()
 
-            if (first.isEmpty() || last.isEmpty() || email.isEmpty() ||
-                pass.isEmpty() || confirmPass.isEmpty()
-            ) {
+            if (first.isEmpty() || last.isEmpty() || email.isEmpty() || pass.isEmpty() || confirmPass.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -96,7 +96,7 @@ class SignUpActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    if (dbHelper.isEmailTaken(email)) {
+                    if (userDatabaseHelper.isEmailTaken(email)) {
                         Toast.makeText(
                             this@SignUpActivity,
                             "Email already registered",
@@ -105,20 +105,20 @@ class SignUpActivity : AppCompatActivity() {
                         return@launch
                     }
 
-                    // --- Add to local SQLite
-                    val success = dbHelper.addUser(first, last, email, pass)
+                    // Save to local SQLite
+                    val success = userDatabaseHelper.addUser(first, last, email, pass)
                     if (success) {
-                        val user = dbHelper.getUserByEmail(email)
-                        user?.let {
-                            // --- Also sync to Supabase
-                            supabaseManager.saveUserToCloud(it)
-                        }
+                        // Also save to Supabase cloud
+                        val profileImageUri = preferencesManager.getProfilePictureUri() ?: ""
+                        val cloudSuccess = supabaseManager.saveUserToCloud(
+                            firstName = first,
+                            lastName = last,
+                            email = email,
+                            profileImage = profileImageUri
+                        )
 
-                        Toast.makeText(
-                            this@SignUpActivity,
-                            "Account created!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this@SignUpActivity, "Account created!", Toast.LENGTH_SHORT)
+                            .show()
 
                         preferencesManager.saveLoggedInUserEmail(email)
 
@@ -126,11 +126,8 @@ class SignUpActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(
-                            this@SignUpActivity,
-                            "Sign up failed",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this@SignUpActivity, "Sign up failed", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 } catch (e: Exception) {
                     Log.e("SignUpActivity", "Signup error", e)
@@ -141,17 +138,16 @@ class SignUpActivity : AppCompatActivity() {
                     ).show()
                 }
             }
+            // Login link
+            binding.tvLoginLink.setOnClickListener {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
         }
 
-        // --- Go to login
-        binding.tvLoginLink.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+        fun onSupportNavigateUp(): Boolean {
+            onBackPressed()
+            return true
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressedDispatcher.onBackPressed()
-        return true
     }
 }
