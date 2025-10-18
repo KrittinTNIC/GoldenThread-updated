@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="250dp"
+    android:layout_height="225dp"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="8dp">
+
+        <!-- Polaroid Image Area -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/light_shades"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/ivTourPoster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="@color/light_accent"
+                android:contentDescription="Tour poster" />
+
+            <!-- Favorite button positioned like a polaroid sticker -->
+            <ImageButton
+                android:id="@+id/btnFavoriteDrama"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="6dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                app:tint="@color/white" />
+
+        </RelativeLayout>
+
+        <!-- Polaroid Bottom Strip (like the white part of polaroid) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/tvTourTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tour Title"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tvTourSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Drama description..."
+                android:textSize="10sp"
+                android:textColor="@color/black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

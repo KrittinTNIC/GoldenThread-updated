@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textCount"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:fontFamily="@font/open_sans_semibold"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="No. 1"/>
+
+        <LinearLayout
+            android:id="@+id/contentContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="3dp"
+            android:background="@drawable/profile_rounded_20dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- THREAD CONTENT -->
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_gravity="end"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/btnExplored"
+            android:button="@null"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="1dp"
+            android:textAlignment="center"
+            android:layout_width="76dp"
+            android:layout_height="26dp"
+            android:background="@drawable/profile_btn_toggle"
+            android:fontFamily="@font/merriweather_black"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:text="EXPLORED" />
+
+        <RadioButton
+            android:id="@+id/btnOngoing"
+            android:button="@null"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="1dp"
+            android:textAlignment="center"
+            android:layout_width="76dp"
+            android:layout_height="26dp"
+            android:background="@drawable/profile_btn_toggle"
+            android:checked="false"
+            android:fontFamily="@font/merriweather_black"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:text="ONGOING" />
+
+        <FrameLayout
+            android:layout_width="76dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="4dp">
+
+            <ImageButton
+                android:id="@+id/btnRemove"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/profile_btn_toggle"
+                android:scaleType="centerCrop"
+                android:contentDescription="Remove" />
+
+            <TextView
+                android:id="@+id/btnRemoveText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="REMOVE"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:fontFamily="@font/merriweather_black"/>
+        </FrameLayout>
+
+    </RadioGroup>
+</LinearLayout>
+

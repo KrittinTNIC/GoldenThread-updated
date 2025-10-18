@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp,UselessParent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F8FA">
+
+    <FrameLayout
+        android:id="@+id/profileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- HEADER -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="178dp"
+            android:background="@drawable/profile_rounded_header">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/dm_serif_text"
+                android:gravity="center"
+                android:text="About"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+
+        </FrameLayout>
+
+        <!-- BACK BUTTON -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/profile_btn_back"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="start"/>
+
+        <!-- DECORATIONS -->
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="116dp"
+            android:src="@drawable/profile_header_about"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="end"/>
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileHeader">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/profile_content_about"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:adjustViewBounds="true"/>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

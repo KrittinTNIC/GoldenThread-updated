@@ -1,0 +1,1009 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp,UselessParent,TooManyViews,DisableBaselineAlignment,UselessLeaf"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F8FA">
+
+    <FrameLayout
+        android:id="@+id/profileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- HEADER -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="178dp"
+            android:background="@drawable/profile_rounded_header">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/dm_serif_text"
+                android:gravity="center"
+                android:text="Your Interests"
+                android:textSize="30sp"
+                android:textColor="@color/white" />
+
+        </FrameLayout>
+
+        <!-- BACK BUTTON -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/profile_btn_back"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="start"/>
+
+        <!-- DECORATIONS -->
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="116dp"
+            android:src="@drawable/profile_header_interest"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="end"/>
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileHeader">
+
+        <!-- CONTENT -->
+        <LinearLayout
+            android:id="@+id/profileLayout"
+            android:layout_width="325dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileHeader">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/merriweather_light"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:text="Choose up to 4 interests for the best recommendations!" />
+
+            <LinearLayout
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/profile_rounded_8dp"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <!-- ROW 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal">
+
+                    <!-- INTEREST 1 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg1"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon1"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_action"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Action" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 2 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg2"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon2"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_comedy"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Comedy" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 3 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg3"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon3"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_crime"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Crime" />
+                    </LinearLayout>
+
+                    <!-- INTERESTS 4 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg4"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon4"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_drama"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Drama" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- ROW 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal">
+
+                    <!-- INTEREST 5 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg5"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon5"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_family"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Family" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 6 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg6"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon6"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_fantasy"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Fantasy" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 7 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg7"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon7"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_bl"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Boy Love" />
+                    </LinearLayout>
+
+                    <!-- INTERESTS 8 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg8"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon8"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_gl"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Girl Love" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- ROW 3 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal">
+
+                    <!-- INTEREST 9 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg9"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon9"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_historical"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Historical" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 10 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg10"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon10"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_horror"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Horror" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 11 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg11"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon11"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_martial_arts"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Martial Arts" />
+                    </LinearLayout>
+
+                    <!-- INTERESTS 12 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg12"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon12"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_medical"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Medical" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- ROW 4 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal">
+
+                    <!-- INTEREST 13 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg13"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon13"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_melodrama"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Melodrama" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 14 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg14"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon14"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_music"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Music" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 15 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg15"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon15"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_psychological"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Psychological" />
+                    </LinearLayout>
+
+                    <!-- INTERESTS 16 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg16"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon16"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_mystery"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Mystery" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- ROW 5 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal">
+
+                    <!-- INTEREST 17 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg17"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon17"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_romance"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Romance" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 18 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg18"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon18"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_supernatural"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Supernatural" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 19 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg19"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon19"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_thriller"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Thriller" />
+                    </LinearLayout>
+
+                    <!-- INTERESTS 20 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg20"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon20"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_youth"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Youth" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- ROW 6 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal">
+
+                    <!-- INTEREST 21 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg21"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon21"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_movie"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Movie" />
+                    </LinearLayout>
+
+                    <!-- INTEREST 22 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/radIconBg22"
+                            android:layout_width="47dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/profile_rounded_white">
+
+                            <ImageButton
+                                android:id="@+id/radIcon22"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:background="@null"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:src="@drawable/profile_rad_series"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/radText22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/merriweather_black"
+                            android:layout_marginTop="3dp"
+                            android:textSize="10sp"
+                            android:text="Series" />
+
+                    </LinearLayout>
+
+                    <!-- EMPTY -->
+                    <LinearLayout
+                        android:layout_width="47dp"
+                        android:layout_height="64dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <!-- EMPTY -->
+                    <LinearLayout
+                        android:layout_width="47dp"
+                        android:layout_height="64dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/dark_accent"
+                android:fontFamily="@font/merriweather_black"
+                android:text="Submit"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileLayout" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

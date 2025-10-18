@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:paddingLeft="20dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:elevation="3dp"
+        android:layout_width="165dp"
+        android:layout_height="230dp"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/imgDramas"
+            android:layout_width="145dp"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_bg"
+            android:background="@null"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/textDramas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/merriweather_black"
+            android:textSize="14sp"
+            android:text="Love Destiny"/>
+    </LinearLayout>
+
+    <RadioButton
+        android:id="@+id/btnRemove"
+        android:button="@null"
+        android:layout_marginHorizontal="3dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="end"
+        android:textAlignment="center"
+        android:elevation="1dp"
+        android:layout_width="76dp"
+        android:layout_height="26dp"
+        android:background="@drawable/profile_btn_toggle"
+        android:checked="false"
+        android:fontFamily="@font/merriweather_black"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:text="REMOVE"/>
+</LinearLayout>

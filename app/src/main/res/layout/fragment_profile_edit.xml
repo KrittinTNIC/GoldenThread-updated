@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="HardcodedText,ContentDescription,SmallSp,UselessParent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F8FA">
+
+    <FrameLayout
+        android:id="@+id/profileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- HEADER -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="178dp"
+            android:background="@drawable/profile_rounded_header">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/dm_serif_text"
+                android:gravity="center"
+                android:text="Edit Profile"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+
+        </FrameLayout>
+
+        <!-- BACK BUTTON -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/profile_btn_back"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="start"/>
+
+        <!-- DECORATIONS -->
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="116dp"
+            android:src="@drawable/profile_header_setting"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="end"/>
+
+        <!-- PROFILE -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="295dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="120dp">
+
+            <FrameLayout
+                android:id="@+id/profileInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- PROFILE PICTURE -->
+                <FrameLayout
+                    android:layout_width="132dp"
+                    android:layout_height="132dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/profile_pic_rounded_2"
+                    android:clipToOutline="true">
+
+                    <ImageView
+                        android:id="@+id/imgProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="26dp"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/avatars"
+                        android:background="@drawable/profile_pic_clipped"
+                        android:clipToOutline="true"/>
+
+                    <!-- OVERLAY -->
+                    <View
+                        android:id="@+id/btnPhoto1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="26dp"
+                        android:background="@drawable/profile_pic_clipped"
+                        android:alpha="0.75"
+                        android:clipToOutline="true" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/profile_btn_camera"/>
+                </FrameLayout>
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/btnPhoto2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/merriweather_black"
+                android:text="Change photo"
+                android:textColor="#A34227"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- INFORMATION -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileHeader">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/profileLayout"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/profile_rounded_8dp"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileHeader">
+
+                <!-- FIRST NAME -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/merriweather_black"
+                        android:text="First Name"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/inputFirstName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/merriweather_light"
+                        android:hint="Ekarat"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_shades" />
+
+                <!-- LAST NAME -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/merriweather_black"
+                        android:text="Last Name"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/inputLastName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/merriweather_light"
+                        android:hint="Rattagan"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_shades" />
+
+                <!-- EMAIL -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/merriweather_black"
+                        android:text="Email"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/inputEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/merriweather_light"
+                        android:hint="ekarat.rat@tni.ac.th"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/dark_accent"
+                android:fontFamily="@font/merriweather_black"
+                android:text="Submit"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileLayout" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

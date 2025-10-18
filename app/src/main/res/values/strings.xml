@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">GoldenThread</string>
+    <string name="title_home">Home</string>
+    <string name="title_explore">Explore</string>
+    <string name="title_thread">Thread</string>
+    <string name="title_profile">Profile</string>
+
+    <string name="travel_time_format">Travel time: %d min</string>
+    <string name="no_scene_description">No scene description available</string>
+
+    <string name="drama_poster">Drama Poster</string>
+</resources>
