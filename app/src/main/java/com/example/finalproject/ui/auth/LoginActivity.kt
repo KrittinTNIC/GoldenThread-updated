@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.OAuthProvider
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -36,30 +37,26 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize helpers
+        firebaseAuth = FirebaseAuth.getInstance()
         userDatabaseHelper = UserDatabaseHelper(this)
         preferencesManager = PreferencesManager(this)
-        firebaseAuth = FirebaseAuth.getInstance()
 
-        // Check if already logged in
+        // If already logged in, skip login
         if (preferencesManager.getLoggedInUserEmail().isNotEmpty()) {
             redirectUser()
             return
         }
 
-        // Setup login methods
         setupGoogleSignIn()
         setupEmailLogin()
-
-        binding.cardGitHub.setOnClickListener {
-            Toast.makeText(this, "GitHub login coming soon!", Toast.LENGTH_SHORT).show()
-        }
+        setupGitHubSignIn()
 
         binding.tvSignUpLink.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
     }
 
+    // ---------------- Google Sign-In ----------------
     private fun setupGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -74,6 +71,37 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // ---------------- GitHub Sign-In ----------------
+    private fun setupGitHubSignIn() {
+        binding.cardGitHub.setOnClickListener {
+            val provider = OAuthProvider.newBuilder("github.com")
+            provider.addCustomParameter("allow_signup", "false") // optional
+
+            val pendingResultTask = firebaseAuth.pendingAuthResult
+            if (pendingResultTask != null) {
+                pendingResultTask
+                    .addOnSuccessListener { authResult ->
+                        handleFirebaseUser(authResult.user?.email, authResult.user?.displayName, authResult.user?.photoUrl?.toString())
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("GitHubLogin", "Pending GitHub login failed", e)
+                        Toast.makeText(this, "GitHub sign-in failed.", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                firebaseAuth
+                    .startActivityForSignInWithProvider(this, provider.build())
+                    .addOnSuccessListener { authResult ->
+                        handleFirebaseUser(authResult.user?.email, authResult.user?.displayName, authResult.user?.photoUrl?.toString())
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("GitHubLogin", "GitHub login failed", e)
+                        Toast.makeText(this, "GitHub sign-in failed", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
+    }
+
+    // ---------------- Email Sign-In ----------------
     private fun setupEmailLogin() {
         binding.btnContinueLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
@@ -88,6 +116,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // ---------------- Google Activity Result ----------------
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -111,43 +140,56 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // ---------------- Firebase Auth with Google ----------------
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
-                    user?.let {
-                        val email = it.email ?: ""
-                        val displayName = it.displayName ?: "User"
-                        val photoUrl = it.photoUrl?.toString() ?: ""
-
-                        if (email.isEmpty()) {
-                            Toast.makeText(this, "Could not get email from Google", Toast.LENGTH_SHORT).show()
-                            return@addOnCompleteListener
-                        }
-
-                        // Save to local DB if new
-                        if (!userDatabaseHelper.isEmailTaken(email)) {
-                            val firstName = displayName.split(" ").firstOrNull() ?: "Google"
-                            val lastName = displayName.split(" ").lastOrNull() ?: "User"
-                            userDatabaseHelper.addUser(firstName, lastName, email, "firebase_google")
-                            userDatabaseHelper.updateProfileImage(email, photoUrl)
-                        }
-
-                        // Save preferences
-                        preferencesManager.saveLoggedInUserEmail(email)
-                        preferencesManager.saveProfilePictureUri(photoUrl)
-
-                        Toast.makeText(this, "Welcome, $displayName!", Toast.LENGTH_SHORT).show()
-                        redirectUser()
-                    }
+                    handleFirebaseUser(user?.email, user?.displayName, user?.photoUrl?.toString())
                 } else {
                     Toast.makeText(this, "Authentication Failed.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
+    // ---------------- Handle Firebase User (Google/GitHub) ----------------
+    private fun handleFirebaseUser(email: String?, displayName: String?, photoUrl: String?) {
+        if (email.isNullOrEmpty()) {
+            Toast.makeText(this, "Could not retrieve email", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val nameParts = displayName?.split(" ") ?: listOf("User")
+        val firstName = nameParts.firstOrNull() ?: "User"
+        val lastName = nameParts.drop(1).joinToString(" ")
+
+        // Save user to local DB if not exists
+        if (!userDatabaseHelper.isEmailTaken(email)) {
+            userDatabaseHelper.addUser(firstName, lastName, email, "firebase_oauth")
+            userDatabaseHelper.updateProfileImage(email, photoUrl ?: "")
+        }
+
+        // Sync to Supabase
+        lifecycleScope.launch {
+            if (!supabaseManager.isUserInCloud(email)) {
+                supabaseManager.saveUserToCloud(
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = email,
+                    profileImage = photoUrl ?: ""
+                )
+            }
+        }
+
+        preferencesManager.saveLoggedInUserEmail(email)
+        preferencesManager.saveProfilePictureUri(photoUrl ?: "")
+        Toast.makeText(this, "Welcome, $displayName!", Toast.LENGTH_SHORT).show()
+        redirectUser()
+    }
+
+    // ---------------- Email Login Logic ----------------
     private fun handleLogin(email: String, password: String) {
         lifecycleScope.launch {
             try {
@@ -190,6 +232,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // ---------------- Redirect Logic ----------------
     private fun redirectUser() {
         val intent = if (preferencesManager.hasCompletedPreferences()) {
             Intent(this, MainActivity::class.java)
