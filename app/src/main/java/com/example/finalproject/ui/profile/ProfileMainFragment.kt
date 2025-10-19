@@ -67,6 +67,17 @@ class ProfileMainFragment : Fragment() {
                 }
             }
 
+        // Listen for UpdateProfileImage from ProfileEditFragment
+        findNavController().currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<Boolean>("userUpdated")
+            ?.observe(viewLifecycleOwner) { updated ->
+                if (updated) {
+                    loadUserUI(requireView())
+                    findNavController().currentBackStackEntry?.savedStateHandle?.set("userUpdated", false)
+                }
+            }
+
+
         // =========== Buttons ===========
         binding.btnEdit.setOnClickListener { // To ProfileEditFragment
             findNavController().navigate(R.id.action_profile_to_edit)

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "517020439171",
+    "project_id": "modular-bot-474202-q8",
+    "storage_bucket": "modular-bot-474202-q8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517020439171:android:e11f2d2d29d1f0c9ac01b6",
+        "android_client_info": {
+          "package_name": "com.example.finalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517020439171-flrqf1katq2gsdooqdblmsifgd90te3f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQtzbk8hWlqVysGp0Op9T9nT49ytyy9_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517020439171-flrqf1katq2gsdooqdblmsifgd90te3f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

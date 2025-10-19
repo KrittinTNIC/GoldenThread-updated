@@ -129,8 +129,11 @@ class ProfileEditFragment : Fragment() {
                     }
                 }
 
-                // gotta add code for when pfp changes
-
+                // Update profile image if changed
+                if (!selectedPhotoUriString.isNullOrEmpty() && selectedPhotoUriString != user.profileImageUri) {
+                    val imageUpdated = userDatabaseHelper.updateProfileImage(userEmail, selectedPhotoUriString!!)
+                    success = imageUpdated && success
+                }
 
                 if (success) {
                     Toast.makeText(requireContext(), "Your data has been updated", Toast.LENGTH_SHORT).show()

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.example.finalproject.R
 import com.example.finalproject.databinding.ItemPosterBinding
 import com.example.finalproject.model.Drama
@@ -27,8 +29,15 @@ class PosterAdapter(
         val drama = dramaList[position]
 
         // Load image
+        val glideUrl = GlideUrl(
+            drama.posterUrl,
+            LazyHeaders.Builder()
+                .addHeader("Referer", "https://mydramalist.com")
+                .build()
+        )
+
         Glide.with(context)
-            .load(drama.posterUrl)
+            .load(glideUrl)
             .placeholder(R.drawable.placeholder_poster)
             .error(R.drawable.placeholder_poster)
             .into(holder.binding.posterImage)
