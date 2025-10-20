@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.finalproject.DatabaseHelper
@@ -19,7 +20,8 @@ import com.example.finalproject.model.Tour
 import com.example.finalproject.util.PreferencesManager
 import com.example.finalproject.util.SmartGenreExpander
 import com.google.ai.client.generativeai.GenerativeModel
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -31,7 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var tourAdapter: TourAdapter
-    private var loadingJob: kotlinx.coroutines.Job? = null
+    private var loadingJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +46,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initDependencies()
         setupRecyclerViews()
         setupSearch()
@@ -81,9 +82,6 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = tourAdapter
         }
-
-        //val initialFavorites = preferencesManager.getFavoriteTours()
-        //tourAdapter.setFavorites(initialFavorites)
     }
 
     private fun showRandomFact() {
@@ -94,47 +92,43 @@ class HomeFragment : Fragment() {
             apiKey = "AIzaSyC6LW8mzZ6lpNWqt2tKLklNTnzASD9yRkk"
         )
 
-        val prompt = "Write a one-sentence random fact about Thai dramas. " +
-                "Make it related with thai movies or series like, where do they take places, or how popular it is" +
-                "Get creative, don't stick with one topic."
+        val prompt = """
+            Write a one-sentence random fact about Thai dramas.
+            Make it related to Thai movies or series — where they take place, or how popular they are.
+            Get creative and vary the topic.
+        """.trimIndent()
 
-        MainScope().launch {
-            val response = generativeModel.generateContent(prompt)
-            loadingJob?.cancel()
-            binding.tvFunFact.text = response.text
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val response = generativeModel.generateContent(prompt)
+                loadingJob?.cancel()
+                _binding?.tvFunFact?.text = response.text ?: "No fact available right now."
+            } catch (e: Exception) {
+                Log.e("HomeFragment", "Error generating fun fact: ${e.message}")
+                _binding?.tvFunFact?.text = "Couldn't load a fun fact."
+            }
         }
     }
 
     private fun animateLoadingDots() {
         loadingJob?.cancel()
 
-        val funFact = binding.tvFunFact
-        loadingJob = MainScope().launch {
+        loadingJob = viewLifecycleOwner.lifecycleScope.launch {
             val text = "Loading"
             while (true) {
                 for (i in 0..3) {
-                    funFact.text = text + ".".repeat(i)
-                    kotlinx.coroutines.delay(500)
+                    _binding?.tvFunFact?.text = text + ".".repeat(i)
+                    delay(500)
+                    if (_binding == null) return@launch // stop if view is gone
                 }
             }
         }
     }
 
     private fun setupClickListeners() {
-        // "Tap for more"
-        binding.tvTapForMore.setOnClickListener {
-            showRandomFact()
-        }
-
-        // Featured Locations
-        binding.tvFeaturedLocationsHeader.setOnClickListener {
-            openThreadFragment()
-        }
-
-        // Personalised For You
-        binding.tvPersonalisedHeader.setOnClickListener {
-            openPersonalisedToursFragment()
-        }
+        binding.tvTapForMore.setOnClickListener { showRandomFact() }
+        binding.tvFeaturedLocationsHeader.setOnClickListener { openThreadFragment() }
+        binding.tvPersonalisedHeader.setOnClickListener { openPersonalisedToursFragment() }
     }
 
     private fun setupSearch() {
@@ -148,23 +142,17 @@ class HomeFragment : Fragment() {
         )
         binding.etSearch.setAdapter(searchAdapter)
 
-        // Search functionality
-        binding.etSearch.setOnItemClickListener { parent, view, position, id ->
+        binding.etSearch.setOnItemClickListener { parent, _, position, _ ->
             val selectedDramaTitle = parent.getItemAtPosition(position) as String
             val selectedDrama = dramas.find { it.titleEn == selectedDramaTitle }
-            selectedDrama?.let { drama ->
-                openTourDetails(drama.dramaId)
-            }
+            selectedDrama?.let { openTourDetails(it.dramaId) }
         }
 
-        // Search action
-        binding.etSearch.setOnEditorActionListener { v, actionId, event ->
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
                 performSearch()
                 true
-            } else {
-                false
-            }
+            } else false
         }
     }
 
@@ -178,38 +166,24 @@ class HomeFragment : Fragment() {
     private fun loadData() {
         val userGenres = preferencesManager.getSelectedGenres()
 
-        // Load featured locations
         val featuredLocations = dbHelper.getFeaturedLocations()
-        Log.d("HomeFragment", "Featured locations loaded: ${featuredLocations.size}")
         locationAdapter.submitList(featuredLocations)
 
         val personalisedTours = if (userGenres.isNotEmpty()) {
-            // AI section: Expands genres to include related ones
             val smartGenres = SmartGenreExpander().expandUserPreferences(userGenres)
-            dbHelper.getToursByGenres(smartGenres.toList())
+            val tours = dbHelper.getToursByGenres(smartGenres.toList())
 
-            // Show user what we're doing
             if (smartGenres.size > userGenres.size) {
                 val extraGenres = smartGenres - userGenres
-                Log.d("AI", "Expanded ${userGenres} to include related genres: $extraGenres")
+                Log.d("AI", "Expanded $userGenres to include related genres: $extraGenres")
             }
 
-            dbHelper.getToursByGenres(smartGenres.toList())
+            tours
         } else {
             dbHelper.getPopularTours()
         }
 
         tourAdapter.submitList(personalisedTours)
-    }
-
-    private fun openDramasByLocation(locationId: String, locationName: String) {
-        val action = HomeFragmentDirections.actionHomeToDramasByLocation(locationId, locationName)
-        findNavController().navigate(action)
-    }
-
-    private fun openTourDetails(tourId: String) {
-        val action = HomeFragmentDirections.actionHomeToTourDetails(tourId)
-        findNavController().navigate(action)
     }
 
     private fun handleFavoriteClick(tour: Tour, isFavorite: Boolean) {
@@ -221,7 +195,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun openThreadFragment() {
-        // Navigate to Thread tab without location data
         try {
             findNavController().navigate(R.id.nav_thread)
         } catch (e: Exception) {
@@ -230,7 +203,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun openThreadWithLocation(locationId: String) {
-        // Navigate to Thread tab with location data
         try {
             val bundle = bundleOf("locationId" to locationId)
             findNavController().navigate(R.id.nav_thread, bundle)
@@ -244,8 +216,14 @@ class HomeFragment : Fragment() {
         findNavController().navigate(action)
     }
 
+    private fun openTourDetails(tourId: String) {
+        val action = HomeFragmentDirections.actionHomeToTourDetails(tourId)
+        findNavController().navigate(action)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        loadingJob?.cancel()
         _binding = null
     }
 }
