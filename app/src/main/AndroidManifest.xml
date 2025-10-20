@@ -29,7 +29,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDLp_0M3_HPd-tKOI-j68xaVBLOfdyYz9A"/>
 
-
         <activity
             android:name="com.example.ui.auth.WelcomeActivity"
             android:exported="true"
@@ -56,7 +55,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
 
     </application>
 
