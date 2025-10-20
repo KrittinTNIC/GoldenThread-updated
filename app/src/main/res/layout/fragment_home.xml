@@ -147,10 +147,12 @@
 
                 <!-- Fun Fact Card -->
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
+                    android:layout_width="360dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     app:cardCornerRadius="12dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
                     app:cardElevation="2dp"
                     app:cardBackgroundColor="#F8F9FA">
 

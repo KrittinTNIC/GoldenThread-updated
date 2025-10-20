@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var tourAdapter: TourAdapter
+    private var loadingJob: kotlinx.coroutines.Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,7 +87,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showRandomFact() {
-        val funFact = binding.tvFunFact
+        animateLoadingDots()
 
         val generativeModel = GenerativeModel(
             modelName = "gemini-2.5-flash",
@@ -99,7 +100,23 @@ class HomeFragment : Fragment() {
 
         MainScope().launch {
             val response = generativeModel.generateContent(prompt)
-            funFact.setText(response.text)
+            loadingJob?.cancel()
+            binding.tvFunFact.text = response.text
+        }
+    }
+
+    private fun animateLoadingDots() {
+        loadingJob?.cancel()
+
+        val funFact = binding.tvFunFact
+        loadingJob = MainScope().launch {
+            val text = "Loading"
+            while (true) {
+                for (i in 0..3) {
+                    funFact.text = text + ".".repeat(i)
+                    kotlinx.coroutines.delay(500)
+                }
+            }
         }
     }
 
