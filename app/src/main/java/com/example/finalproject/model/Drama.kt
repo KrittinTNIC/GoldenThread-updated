@@ -3,7 +3,6 @@ package com.example.finalproject.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class Drama(
     val dramaId: String,
     val titleEn: String,
@@ -12,5 +11,5 @@ data class Drama(
     val duration: String,
     val summary: String,
     val posterUrl: String,
-    val genre: String
-) : Parcelable
+    val bgUrl: String
+)

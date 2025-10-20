@@ -73,20 +73,21 @@ class PersonalisedToursFragment : Fragment() {
     private fun loadPersonalisedTours() {
         val userGenres = preferencesManager.getSelectedGenres()
 
-        val personalisedTours = if (userGenres.isNotEmpty()) {
-            // 🎯 AI ENHANCEMENT: Use smart genre expansion
-            val smartGenres = SmartGenreExpander().expandUserPreferences(userGenres)
+        val smartGenres = if (userGenres.isNotEmpty()) {
+            // AI ENHANCEMENT: Use smart genre expansion
+            SmartGenreExpander().expandUserPreferences(userGenres)
+        } else emptySet()
 
-            dbHelper.getToursByGenres(smartGenres.toList())
+        val personalisedTours = if (userGenres.isNotEmpty()) {
+            dbHelper.getToursByGenres(smartGenres.toList()).take(4) // limit to 4
         } else {
-            dbHelper.getPopularTours()
+            dbHelper.getPopularTours().take(4) // limit to 4
         }
 
         tourAdapter.submitList(personalisedTours)
 
         // Update UI to show AI is working
         if (userGenres.isNotEmpty()) {
-            val smartGenres = SmartGenreExpander().expandUserPreferences(userGenres)
             val extraCount = smartGenres.size - userGenres.size
 
             binding.tvTitle.text = "Personalised For You"

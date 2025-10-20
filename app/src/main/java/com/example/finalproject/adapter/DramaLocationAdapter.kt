@@ -20,6 +20,7 @@ class DramaLocationAdapter(
 
     interface OnItemButtonClickListener {
         fun onGoToDrama(item: LocationDramaItem)
+        fun onPreviousPoint(item: LocationDramaItem)
         fun onNextPoint(item: LocationDramaItem)
         fun onFavorite(item: LocationDramaItem, isFavorite: Boolean)
     }
@@ -41,6 +42,7 @@ class DramaLocationAdapter(
         private val tvSceneNotes: TextView = itemView.findViewById(R.id.tvSceneNotes)
         private val tvTravelTime: TextView = itemView.findViewById(R.id.tvTravelTime)
         private val btnGoToDrama: Button = itemView.findViewById(R.id.btnGoToDrama)
+        private val btnPreviousPoint: Button = itemView.findViewById(R.id.btnPreviousPoint)
         private val btnNextPoint: Button = itemView.findViewById(R.id.btnNextPoint)
         private val btnFavorite: ImageButton = itemView.findViewById(R.id.btnFavoriteDrama)
 
@@ -59,6 +61,7 @@ class DramaLocationAdapter(
             updateFavoriteButton(isFavorite)
 
             btnGoToDrama.setOnClickListener { listener.onGoToDrama(item) }
+            btnPreviousPoint.setOnClickListener { listener.onPreviousPoint(item) }
             btnNextPoint.setOnClickListener { listener.onNextPoint(item) }
 
             // Set the click listener for the favorite button

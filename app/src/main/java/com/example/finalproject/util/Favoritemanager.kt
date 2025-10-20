@@ -82,13 +82,13 @@ object FavoriteManager {
 
     fun isThreadFavorite(item: LocationDramaItem): Boolean {
         if (!prefsReady()) return false
-        return getThreadFavorites().any { it.nameEn == item.nameEn && it.titleEn == item.titleEn }
+        return getThreadFavorites().any { it.titleEn == item.titleEn }
     }
 
     fun addThreadFavorite(item: LocationDramaItem) {
         if (!prefsReady()) return
         val favorites = getThreadFavorites()
-        if (favorites.none { it.nameEn == item.nameEn && it.titleEn == item.titleEn }) {
+        if (favorites.none { it.titleEn == item.titleEn }) {
             favorites.add(item)
             saveThreadFavorites(favorites)
         }
@@ -97,7 +97,7 @@ object FavoriteManager {
     fun removeThreadFavorite(item: LocationDramaItem) {
         if (!prefsReady()) return
         val favorites = getThreadFavorites()
-        val changed = favorites.removeAll { it.nameEn == item.nameEn && it.titleEn == item.titleEn }
+        val changed = favorites.removeAll { it.titleEn == item.titleEn }
         if (changed) saveThreadFavorites(favorites)
     }
 

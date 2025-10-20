@@ -5,6 +5,7 @@ data class Tour(
     val titleEn: String,
     val titleTh: String,
     val posterUrl: String,
+    val bgUrl: String,
     val locationCount: Int,
     val totalTravelTime: Int,
     val description: String

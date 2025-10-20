@@ -29,7 +29,7 @@ fun loadDramasFromCSV(context: Context): List<Drama> {
         val duration = tokens.getOrNull(4)?.trim().orEmpty()
         val summary = tokens.getOrNull(5)?.trim().orEmpty()
         val posterRaw = tokens.getOrNull(6)?.trim().orEmpty()
-        val genre = tokens.getOrNull(7)?.trim().orEmpty()
+        val bgRaw = tokens.getOrNull(7)?.trim().orEmpty()
 
         // Clean poster URL:
         // 1) Split on whitespace, pick the last token that looks like an image URL (.jpg/.png/.jpeg/.webp)
@@ -44,8 +44,19 @@ fun loadDramasFromCSV(context: Context): List<Drama> {
             }?.trim()?.trim('"') ?: posterRaw.split(Regex("\\s+"))
             .lastOrNull { it.startsWith("http", ignoreCase = true) }?.trim()?.trim('"') ?: ""
 
+        var bgUrl = bgRaw.split(Regex("\\s+"))
+            .lastOrNull {
+                it.startsWith("http", ignoreCase = true) &&
+                        (it.contains(".jpg", ignoreCase = true) ||
+                                it.contains(".png", ignoreCase = true) ||
+                                it.contains(".jpeg", ignoreCase = true) ||
+                                it.contains(".webp", ignoreCase = true))
+            }?.trim()?.trim('"') ?: bgRaw.split(Regex("\\s+"))
+            .lastOrNull { it.startsWith("http", ignoreCase = true) }?.trim()?.trim('"') ?: ""
+
         // Final safe-trim in case there are trailing commas/quotes
         posterUrl = posterUrl.trim().trimEnd(',', '"')
+        bgUrl = bgUrl.trim().trimEnd(',', '"')
 
         val drama = Drama(
             dramaId = dramaId,
@@ -55,7 +66,7 @@ fun loadDramasFromCSV(context: Context): List<Drama> {
             duration = duration,
             summary = summary,
             posterUrl = posterUrl,
-            genre = genre
+            bgUrl = bgUrl
         )
 
         Log.d(TAG, "Parsed drama $dramaId posterUrl='$posterUrl'") // debug: check in Logcat

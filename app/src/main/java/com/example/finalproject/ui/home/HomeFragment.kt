@@ -169,6 +169,7 @@ class HomeFragment : Fragment() {
         val personalisedTours = if (userGenres.isNotEmpty()) {
             // AI section: Expands genres to include related ones
             val smartGenres = SmartGenreExpander().expandUserPreferences(userGenres)
+            dbHelper.getToursByGenres(smartGenres.toList())
 
             // Show user what we're doing
             if (smartGenres.size > userGenres.size) {

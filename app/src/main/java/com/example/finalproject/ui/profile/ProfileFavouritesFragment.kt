@@ -228,6 +228,12 @@ class ProfileFavouritesFragment : Fragment() {
                         }
                         threadsLayout.removeView(threadView)
 
+                        for (i in 0 until threadsLayout.childCount) {
+                            val child = threadsLayout.getChildAt(i)
+                            val countText = child.findViewById<TextView>(R.id.textCount)
+                            countText?.text = "No. ${i + 1}"
+                        }
+
                         if (threadsLayout.isEmpty()) {
                             binding.nothingLayout.visibility = View.VISIBLE
                             threadsLayout.visibility = View.GONE

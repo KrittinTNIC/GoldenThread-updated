@@ -84,7 +84,7 @@ class TourDetailsFragment : Fragment() {
             duration = "Unknown",
             summary = tour.description ?: "No description available",
             posterUrl = tour.posterUrl ?: "",
-            genre = "Unknown"
+            bgUrl = ""
         )
     }
 
@@ -135,7 +135,7 @@ class TourDetailsFragment : Fragment() {
                 "${tour.locationCount} locations • ${tour.totalTravelTime} min travel"
 
             Glide.with(this)
-                .load(tour.posterUrl)
+                .load(tour.bgUrl)
                 .placeholder(R.drawable.placeholder_bg)
                 .error(R.drawable.placeholder_bg)
                 .into(binding.ivPoster)

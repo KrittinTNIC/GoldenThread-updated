@@ -83,7 +83,7 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
             peekHeight = 0
         }
 
-        setupBackButton()
+        //setupBackButton()
 
         try {
             val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
@@ -95,11 +95,13 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
         return binding.root
     }
 
+    /**
     private fun setupBackButton() {
         binding.btnBack?.setOnClickListener {
             findNavController().navigateUp()
         }
     }
+    **/
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -231,9 +233,13 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
 
             val marker = mMap!!.addMarker(markerOptions)
             if (marker != null) {
-                val relatedDL = dlList.filter { it.locationId == loc.id }
+                val relatedDL = dlList
+                    .filter { it.locationId == loc.id }
+                    .groupBy { it.dramaId }
+                    .map { (_, list) -> list.minByOrNull { it.orderInTrip } }
+
                 val items = relatedDL.mapNotNull { dl ->
-                    val drama = dramas.find { it.dramaId == dl.dramaId }
+                    val drama = dramas.find { it.dramaId == dl?.dramaId }
                     LocationDramaItem(
                         nameEn = loc.nameEn,
                         nameTh = loc.nameTh,
@@ -241,9 +247,9 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
                         titleEn = drama?.titleEn ?: "Unknown Drama",
                         titleTh = drama?.titleTh ?: "",
                         releaseYear = drama?.releaseYear ?: "",
-                        sceneNotes = dl.sceneNotes,
-                        orderInTrip = dl.orderInTrip,
-                        carTravelMin = dl.carTravelMin,
+                        sceneNotes = dl?.sceneNotes ?: "",
+                        orderInTrip = dl?.orderInTrip ?: 0,
+                        carTravelMin = dl?.carTravelMin ?: 0,
                         latitude = loc.latitude,
                         longitude = loc.longitude
                     )
@@ -345,6 +351,33 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
             Log.e(TAG, "Could not find drama ID for: ${item.titleEn}")
         }
     }
+    override fun onPreviousPoint(item: LocationDramaItem) {
+        val previousMarker = markers.find { m ->
+            val tag = m.tag as? List<*>
+            tag?.any {
+                it is LocationDramaItem &&
+                        it.orderInTrip == item.orderInTrip - 1 &&
+                        it.titleEn == item.titleEn
+            } == true
+        }
+
+        if (previousMarker == null) {
+            Toast.makeText(context, "This is the first location!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        previousMarker?.let {
+            mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it.position, 15f))
+            val tag = previousMarker.tag as? List<*>
+            val previousItems = tag?.filterIsInstance<LocationDramaItem>()?.filter {
+                it.titleEn == item.titleEn
+            } ?: emptyList()
+
+            if (previousItems.isNotEmpty()) {
+                recyclerAdapter.submitList(previousItems)
+            }
+        }
+    }
 
     override fun onNextPoint(item: LocationDramaItem) {
         val nextMarker = markers.find { m ->
@@ -354,6 +387,11 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
                         it.orderInTrip == item.orderInTrip + 1 &&
                         it.titleEn == item.titleEn
             } == true
+        }
+
+        if (nextMarker == null) {
+            Toast.makeText(context, "This is the last location!", Toast.LENGTH_SHORT).show()
+            return
         }
 
         nextMarker?.let {
@@ -369,7 +407,7 @@ class ThreadFragment : Fragment(), OnMapReadyCallback,
         }
     }
 
-    // ✅ Added favorite handling here
+    // Favorite handling
     override fun onFavorite(item: LocationDramaItem, isFavorite: Boolean) {
         if (isFavorite) {
             FavoriteManager.addThreadFavorite(item)

@@ -13,20 +13,20 @@ import com.example.finalproject.model.Tour
 //import com.example.finalproject.model.Tour
 import java.io.FileOutputStream
 
-class DatabaseHelper(context: Context) :
+class DatabaseHelper(private val context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val TAG = "DatabaseHelper"
         private const val DATABASE_NAME = "GoldenThread.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 3
     }
 
     init {
-        copyDatabaseIfNeeded(context)
+        copyDatabaseIfNeeded()
     }
 
-    private fun copyDatabaseIfNeeded(context: Context) {
+    private fun copyDatabaseIfNeeded() {
         val dbPath = context.getDatabasePath(DATABASE_NAME)
 
         if (!dbPath.exists()) {
@@ -51,6 +51,12 @@ class DatabaseHelper(context: Context) :
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Handle database upgrades when needed
+        val dbFile = context.getDatabasePath(DATABASE_NAME)
+        if (dbFile.exists()) {
+            dbFile.delete()
+        }
+
+        copyDatabaseIfNeeded()
     }
 
     // Genre Methods
@@ -86,7 +92,7 @@ class DatabaseHelper(context: Context) :
         return queryDramas(
             """
             SELECT d.drama_id, d.title_en, d.title_th, d.release_year, 
-                   d.duration_min, d.summary, d.poster_url, 
+                   d.duration_min, d.summary, d.poster_url, d.bg_drama,
                    GROUP_CONCAT(g.genre) as genres
             FROM dramas d
             LEFT JOIN drama_genres dg ON d.drama_id = dg.drama_id
@@ -106,7 +112,7 @@ class DatabaseHelper(context: Context) :
         return queryDramas(
             """
             SELECT DISTINCT d.drama_id, d.title_en, d.title_th, d.release_year, 
-                   d.duration_min, d.summary, d.poster_url, 
+                   d.duration_min, d.summary, d.poster_url, d.bg_drama,
                    GROUP_CONCAT(g.genre) as genres
             FROM dramas d
             INNER JOIN drama_genres dg ON d.drama_id = dg.drama_id
@@ -136,7 +142,7 @@ class DatabaseHelper(context: Context) :
                         duration = cursor.getString(4) ?: "",
                         summary = cursor.getString(5) ?: "",
                         posterUrl = cursor.getString(6) ?: "",
-                        genre = cursor.getString(7) ?: "Unknown"
+                        bgUrl = cursor.getString(7) ?: "",
                     )
                 )
             }
@@ -154,7 +160,7 @@ class DatabaseHelper(context: Context) :
     fun getAvailableTours(): List<Tour> {
         return queryTours(
             """
-            SELECT d.drama_id, d.title_en, d.title_th, d.poster_url,
+            SELECT d.drama_id, d.title_en, d.title_th, d.poster_url, d.bg_drama,
                    COUNT(DISTINCT dl.location_id) as location_count,
                    SUM(dl.car_travel_min) as total_travel_time,
                    d.summary
@@ -170,7 +176,7 @@ class DatabaseHelper(context: Context) :
     fun getPopularTours(): List<Tour> {
         return queryTours(
             """
-            SELECT d.drama_id, d.title_en, d.title_th, d.poster_url,
+            SELECT d.drama_id, d.title_en, d.title_th, d.poster_url, d.bg_drama,
                    COUNT(DISTINCT dl.location_id) as location_count,
                    SUM(dl.car_travel_min) as total_travel_time,
                    d.summary
@@ -190,7 +196,7 @@ class DatabaseHelper(context: Context) :
 
         return queryTours(
             """
-            SELECT DISTINCT d.drama_id, d.title_en, d.title_th, d.poster_url,
+            SELECT DISTINCT d.drama_id, d.title_en, d.title_th, d.poster_url, d.bg_drama,
                    COUNT(DISTINCT dl.location_id) as location_count,
                    SUM(dl.car_travel_min) as total_travel_time,
                    d.summary
@@ -201,6 +207,7 @@ class DatabaseHelper(context: Context) :
             WHERE g.genre IN ($placeholders)
             GROUP BY d.drama_id
             ORDER BY location_count DESC
+            LIMIT 4
             """,
             genres.toTypedArray()
         )
@@ -220,9 +227,10 @@ class DatabaseHelper(context: Context) :
                         titleEn = cursor.getString(1) ?: "",
                         titleTh = cursor.getString(2) ?: "",
                         posterUrl = cursor.getString(3) ?: "",
-                        locationCount = cursor.getInt(4),
-                        totalTravelTime = cursor.getInt(5),
-                        description = cursor.getString(6) ?: ""
+                        bgUrl = cursor.getString(4) ?: "",
+                        locationCount = cursor.getInt(5),
+                        totalTravelTime = cursor.getInt(6),
+                        description = cursor.getString(7) ?: ""
                     )
                 )
             }
@@ -254,11 +262,11 @@ class DatabaseHelper(context: Context) :
                 dramaId = cursor.getString(0),
                 titleEn = cursor.getString(1) ?: "",
                 titleTh = cursor.getString(2) ?: "",
-                posterUrl = cursor.getString(3) ?: "",
-                releaseYear = cursor.getInt(4),
-                duration = cursor.getString(5) ?: "",
-                summary = cursor.getString(6) ?: "",
-                genre = cursor.getString(7) ?: "Unknown"
+                releaseYear = cursor.getInt(3),
+                duration = cursor.getString(4) ?: "",
+                summary = cursor.getString(5) ?: "",
+                posterUrl = cursor.getString(6) ?: "",
+                bgUrl = cursor.getString(7) ?: "",
             )
         }
 
@@ -275,7 +283,7 @@ class DatabaseHelper(context: Context) :
         try {
             val cursor = db.rawQuery(
                 """
-            SELECT DISTINCT d.drama_id, d.title_en, d.title_th, d.poster_url,
+            SELECT DISTINCT d.drama_id, d.title_en, d.title_th, d.poster_url, d.bg_drama,
                    COUNT(DISTINCT dl2.location_id) as location_count,
                    SUM(dl2.car_travel_min) as total_travel_time,
                    d.summary
@@ -296,9 +304,10 @@ class DatabaseHelper(context: Context) :
                         titleEn = cursor.getString(1) ?: "",
                         titleTh = cursor.getString(2) ?: "",
                         posterUrl = cursor.getString(3) ?: "",
-                        locationCount = cursor.getInt(4),
-                        totalTravelTime = cursor.getInt(5),
-                        description = cursor.getString(6) ?: ""
+                        bgUrl = cursor.getString(4) ?: "",
+                        locationCount = cursor.getInt(5),
+                        totalTravelTime = cursor.getInt(6),
+                        description = cursor.getString(7) ?: ""
                     )
                 )
             }
@@ -364,7 +373,7 @@ class DatabaseHelper(context: Context) :
                 LEFT JOIN drama_locations dl ON l.location_id = dl.location_id
                 GROUP BY l.location_id
                 ORDER BY drama_count DESC
-                LIMIT 10
+                LIMIT 6
                 """, null
             )
 
